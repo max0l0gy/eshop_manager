@@ -1,0 +1,22 @@
+{
+  "name": "Owesine T-Shirt",
+  "shortDescription": "Crazy art on your t-shirt",
+  "overview": "Unique t-shirt with pice of art on the front of you original view of life",
+  "amount": 1,
+  "price": 50.0,
+  "currencyCode": "EUR",
+  "typeId": 100,
+  "propertyValues": [
+    100,
+    101
+  ],
+  "images": [
+    "https://io.titsonfire.store/io/file/eshop/002439thailand-phiphi-woodenboat (1).jpg",
+    "https://io.titsonfire.store/io/file/eshop/Blue-water-and-boat-in-Thailand.jpg",
+    "https://io.titsonfire.store/io/file/eshop/NINTCHDBPICT000517170608 (1).jpg",
+    "https://io.titsonfire.store/io/file/eshop/images (2).jpeg",
+    "https://io.titsonfire.store/io/file/eshop/photo-1507580433829-a0989f4d4469.jpeg",
+    "https://io.titsonfire.store/io/file/eshop/images (1).jpeg"
+  ],
+  "branchId": null
+}

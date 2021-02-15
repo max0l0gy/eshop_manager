@@ -1,0 +1,73 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: eshop
+  labels:
+    app.kubernetes.io/name: eshop
+    app.kubernetes.io/instance: eshop
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: eshop
+  name: eshop-manager-web
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 80
+      protocol: TCP
+  selector:
+    app: eshop-manager-web
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: eshop
+  name: eshop-manager-web-deployment
+  labels:
+    app: eshop-manager-web
+spec:
+  selector:
+    matchLabels:
+      app: eshop-manager-web
+  strategy:
+    type: Recreate
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: eshop-manager-web
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+        - name: eshop-manager-web
+          image: maxmorev/eshop-manager-web:latest
+          ports:
+            - containerPort: 80
+              name: nginx
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m" # 1/4 core
+            limits:
+              memory: "128Mi"
+              cpu: "250m" # 1/4 core
+          readinessProbe:
+            httpGet:
+              path: /index.html
+              port: 80
+            initialDelaySeconds: 10
+            timeoutSeconds: 5
+            periodSeconds: 3
+            failureThreshold: 1
+          livenessProbe:
+            httpGet:
+              path: /index.html
+              port: 80
+            initialDelaySeconds: 15
+            timeoutSeconds: 2
+            periodSeconds: 8
+            failureThreshold: 1

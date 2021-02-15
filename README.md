@@ -1,2 +1,4 @@
 # eshop_manager
-Flutter web application
+
+A Flutter application.
+

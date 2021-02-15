@@ -1,0 +1,22 @@
+{
+  "name": "ahahah",
+  "shortDescription": "shsbhs shsbhsbh sh",
+  "overview": "Overview",
+  "amount": 1,
+  "price": 50.0,
+  "currencyCode": "EUR",
+  "typeId": 100,
+  "propertyValues": [
+    101,
+    100
+  ],
+  "images": [
+    "https://io.titsonfire.store/io/file/eshop/002439thailand-phiphi-woodenboat (1).jpg",
+    "https://io.titsonfire.store/io/file/eshop/Blue-water-and-boat-in-Thailand.jpg",
+    "https://io.titsonfire.store/io/file/eshop/NINTCHDBPICT000517170608 (2).jpg",
+    "https://io.titsonfire.store/io/file/eshop/msid-70431371,width-96,height-65.cms.webp",
+    "https://io.titsonfire.store/io/file/eshop/images (2).jpeg",
+    "https://io.titsonfire.store/io/file/eshop/photo-1507580433829-a0989f4d4469.jpeg"
+  ],
+  "branchId": null
+}
