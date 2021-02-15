@@ -29,7 +29,7 @@ jobs:
           echo "APP_DOCKER_REPO=maxmorev/eshop-manager-web" >> $GITHUB_ENV
 
       - name: Print name for docker repository
-        run: echo "APP_DOCKER_REPO=$APP_DOCKER_REPO"
+        run: echo "APP_DOCKER_REPO=${{env.APP_DOCKER_REPO}}"
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v1
