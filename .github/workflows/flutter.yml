@@ -21,8 +21,8 @@ jobs:
         run: flutter config --enable-web
       - name: pub get
         run: flutter pub get
-      - name: One-time code generation
-        run: flutter pub run build_runner build
+#      - name: One-time code generation
+#        run: flutter pub run build_runner build
       - name: Build the web
         run: flutter build web
 
