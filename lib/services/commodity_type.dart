@@ -11,8 +11,8 @@ const addTypeUrl = '$endpoint/rest/api/private/type/';
 const deleteTypeUrl = '$endpoint/rest/api/private/type/{id}';
 
 class TypesModel {
-  final EshopManager eshopManager;
-  NetworkHelper _networkHelper;
+  late EshopManager eshopManager;
+  late NetworkHelper _networkHelper;
 
   TypesModel(this.eshopManager) {
     _networkHelper =
@@ -43,11 +43,11 @@ class TypesModel {
 
 @JsonSerializable(explicitToJson: true)
 class CommodityType {
-  final int id;
-  final String name;
-  final String description;
+  int? id;
+  late String name;
+  late String description;
 
-  CommodityType({this.id, this.name, this.description});
+  CommodityType({this.id, required this.name, required this.description});
 
   factory CommodityType.fromJson(Map<String, dynamic> json) =>
       _$CommodityTypeFromJson(json);

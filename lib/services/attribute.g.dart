@@ -12,9 +12,9 @@ CommodityAttribute _$CommodityAttributeFromJson(Map<String, dynamic> json) {
     json['name'] as String,
     json['dataType'] as String,
     json['measure'] as String,
-    (json['values'] as List)
-        ?.map((e) => e == null ? null : AttributeValue.fromJson(e))
-        ?.toList(),
+    (json['values'] as List<dynamic>)
+        .map((e) => AttributeValue.fromJson(e))
+        .toList(),
   );
 }
 
@@ -24,7 +24,7 @@ Map<String, dynamic> _$CommodityAttributeToJson(CommodityAttribute instance) =>
       'name': instance.name,
       'dataType': instance.dataType,
       'measure': instance.measure,
-      'values': instance.values?.map((e) => e?.toJson())?.toList(),
+      'values': instance.values.map((e) => e.toJson()).toList(),
     };
 
 AttributeValue _$AttributeValueFromJson(Map<String, dynamic> json) {

@@ -18,7 +18,7 @@ class OrderDetailScreen extends StatefulWidget {
 
 class _OrderDetailState extends State<OrderDetailScreen> {
   final _formKey = GlobalKey<FormState>();
-  CommodityModel _customerModel;
+  late CommodityModel _customerModel;
   String _customerName = '';
   String _deliveryAddress = '';
 
@@ -78,7 +78,7 @@ class _OrderDetailState extends State<OrderDetailScreen> {
   }
 
   void _updateOrderStateAction() async {
-    if (_formKey.currentState.validate()) {
+    if (_formKey.currentState!.validate()) {
       //todo update order state
       var resp = null;
       Navigator.pop(context, resp);
@@ -112,14 +112,14 @@ class OrderDetailsCard extends StatelessWidget {
   final EshopManager eshopManager;
 
   const OrderDetailsCard({
-    this.orderId,
-    this.totalPrice,
-    this.dateOfOreder,
-    this.customerName,
-    this.currencyCode,
-    this.deliveryAddress,
-    this.actions,
-    this.eshopManager,
+    required this.orderId,
+    required this.totalPrice,
+    required this.dateOfOreder,
+    required this.customerName,
+    required this.currencyCode,
+    required this.deliveryAddress,
+    required this.actions,
+    required this.eshopManager,
   });
 
   Future<void> _actionButtonPressed(OrderAction action, context) async {
@@ -227,11 +227,11 @@ class OrderDetailsCard extends StatelessWidget {
 
 class PurchaseListItem extends StatelessWidget {
   const PurchaseListItem({
-    this.thumbnail,
-    this.title,
-    this.attributes,
-    this.amount,
-    this.productCode,
+    required this.thumbnail,
+    required this.title,
+    required this.attributes,
+    required this.amount,
+    required this.productCode,
   });
 
   final Widget thumbnail;
@@ -276,11 +276,11 @@ class PurchaseListItem extends StatelessWidget {
 
 class _PurchaseDescription extends StatelessWidget {
   const _PurchaseDescription({
-    Key key,
-    this.title,
-    this.attributes,
-    this.amount,
-    this.productCode,
+    Key? key,
+    required this.title,
+    required this.attributes,
+    required this.amount,
+    required this.productCode,
   }) : super(key: key);
 
   final String title;

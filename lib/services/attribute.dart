@@ -13,8 +13,8 @@ const deleteAttributeValueUrl =
 const listDataTypesUrl = '$endpoint/rest/api/public/attribute/value/dataTypes/';
 
 class AttributeModel {
-  final EshopManager eshopManager;
-  NetworkHelper _networkHelper;
+  late EshopManager eshopManager;
+  late NetworkHelper _networkHelper;
 
   AttributeModel(this.eshopManager) {
     _networkHelper =
@@ -83,18 +83,18 @@ class AttributeValue {
 
 @JsonSerializable(explicitToJson: true)
 class RequestAttributeValue {
-  final int typeId;
-  final String name;
-  final String dataType;
-  final String measure;
-  final String value;
+  late int typeId;
+  late String name;
+  late String dataType;
+  late String measure;
+  late String value;
 
   RequestAttributeValue({
-    this.typeId,
-    this.name,
-    this.dataType,
-    this.measure,
-    this.value,
+    required this.typeId,
+    required this.name,
+    required this.dataType,
+    required this.measure,
+    required this.value,
   });
 
   Map<String, dynamic> toJson() => _$RequestAttributeValueToJson(this);

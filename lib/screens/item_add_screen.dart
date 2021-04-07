@@ -9,6 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart' show timeDilation;
 import 'package:flutter/services.dart';
 
+import 'upload_images_screen.dart';
+
 class ItemAddScreen extends StatefulWidget {
   final EshopManager eshopManager;
   final CommodityType type;
@@ -21,9 +23,9 @@ class ItemAddScreen extends StatefulWidget {
 
 class _ItemAddState extends State<ItemAddScreen> {
   final _formKey = GlobalKey<FormState>();
-  CommodityModel _itemModel;
-  AttributeModel _attributeModel;
-  RequestCommodity _item = RequestCommodity(currencyCode: 'EUR');
+  late CommodityModel _itemModel;
+  late AttributeModel _attributeModel;
+  RequestCommodity _item = RequestCommodity.currencyCode(currencyCode: 'EUR');
   List<CommodityAttribute> _attributes = [];
 
   @override
@@ -64,7 +66,7 @@ class _ItemAddState extends State<ItemAddScreen> {
   }
 
   void _updateOrderStateAction(BuildContext context) async {
-    if (_formKey.currentState.validate()) {
+    if (_formKey.currentState!.validate()) {
       //valodate attributes of item
       if (_item.propertyValues.length == 0) {
         Scaffold.of(context)
@@ -102,7 +104,7 @@ class _ItemAddState extends State<ItemAddScreen> {
 
   Future<void> loadAttributes() async {
     List<CommodityAttribute> attr =
-        await _attributeModel.getAttributes(widget.type.id);
+        await _attributeModel.getAttributes(widget.type.id!);
     setState(() {
       _attributes = attr;
     });
@@ -112,7 +114,7 @@ class _ItemAddState extends State<ItemAddScreen> {
   void initState() {
     _itemModel = CommodityModel(widget.eshopManager);
     _attributeModel = AttributeModel(widget.eshopManager);
-    _item.typeId = widget.type.id;
+    _item.typeId = widget.type.id!;
     loadAttributes();
   }
 }
@@ -169,7 +171,7 @@ class ItemDetailCardState extends State<ItemDetailsCard> {
                 ),
                 Expanded(
                   flex: 2,
-                  child: ItemUploadImage(
+                  child: UploadImagesScreen(
                     images: widget.item.images,
                     eshopManager: widget.eshopManager,
                   ),
@@ -220,13 +222,13 @@ class ItemDetailCardState extends State<ItemDetailsCard> {
                           hintText: 'Enter amount of items',
                         ),
                         validator: (value) {
-                          if (value.isEmpty) {
+                          if (value!.isEmpty) {
                             return 'Please enter amount';
                           }
                           return null;
                         },
                         onChanged: (value) {
-                          widget.item.amount = int.tryParse(value);
+                          widget.item.amount = int.tryParse(value)!;
                         },
                       ),
                     ),
@@ -241,7 +243,7 @@ class ItemDetailCardState extends State<ItemDetailsCard> {
                           hintText: 'Enter price per item',
                         ),
                         validator: (value) {
-                          if (value.isEmpty) {
+                          if (value!.isEmpty) {
                             return 'Please enter price per item';
                           }
                           if (double.tryParse(value) == null) {
@@ -250,7 +252,7 @@ class ItemDetailCardState extends State<ItemDetailsCard> {
                           return null;
                         },
                         onChanged: (value) {
-                          widget.item.price = double.tryParse(value);
+                          widget.item.price = double.tryParse(value)!;
                         },
                       ),
                     ),
@@ -269,7 +271,7 @@ class ItemAttributesCard extends StatefulWidget {
   final List<CommodityAttribute> attributes;
   final RequestCommodity item;
 
-  ItemAttributesCard({Key key, this.attributes, this.item}) : super(key: key);
+  ItemAttributesCard({Key? key, required this.attributes, required this.item}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => ItemAttributesCardState(item);
@@ -296,9 +298,9 @@ class ItemAttributesCardState extends State<ItemAttributesCard> {
                   ],
                 ),
                 value: item.propertyValues.contains(v.id),
-                onChanged: (bool value) {
+                onChanged: (bool? value) {
                   setState(() {
-                    if (value) {
+                    if (value!) {
                       item.propertyValues.add(v.id);
                       timeDilation = EshopNumbers.DELAITION_MAX;
                     } else {

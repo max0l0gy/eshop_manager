@@ -17,7 +17,7 @@ class ItemsScreen extends StatefulWidget {
 
 class _ItemsScreenState extends State<ItemsScreen> {
   List<Widget> _itemListView = [];
-  CommodityModel _commodityModel;
+  late CommodityModel _commodityModel;
 
   void _updateUI(CommodityGrid commodityGrid) {
     if (commodityGrid != null) {

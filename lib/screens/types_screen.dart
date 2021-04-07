@@ -17,7 +17,8 @@ class TypesScreen extends StatefulWidget {
 
 class _TypesScreenState extends State<TypesScreen> {
   List<Widget> _typesCardsList = [];
-  TypesModel _typesModel;
+  late TypesModel _typesModel;
+
   void _updateUI(dynamic types) {
     if (types != null) {
       setState(() {
@@ -77,7 +78,9 @@ class _TypesScreenState extends State<TypesScreen> {
                     builder: (BuildContext context) {
                       return new IconButton(
                         onPressed: () {
-                          deleteType(context, e.id);
+                          if (e.id != null) {
+                            deleteType(context, e.id!);
+                          }
                         },
                         icon: Icon(
                           Icons.delete,

@@ -31,7 +31,7 @@ class _SelectTypeScreen extends State<SetImgUrlScreen> {
                     hintText: 'Paste Image URL here',
                   ),
                   validator: (value) {
-                    if (value.isEmpty) {
+                    if (value!.isEmpty) {
                       return 'Please set image url';
                     }
                     return null;

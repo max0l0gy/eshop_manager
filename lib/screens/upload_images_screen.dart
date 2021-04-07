@@ -2,15 +2,14 @@ import 'package:E0ShopManager/screens/upload_image_set_url_screen.dart';
 import 'package:E0ShopManager/services/commodity.dart';
 import 'package:E0ShopManager/utils/constants.dart';
 import 'package:E0ShopManager/utils/eshop_manager.dart';
-import 'package:file_picker_cross/file_picker_cross.dart';
 
 import 'package:flutter/material.dart';
 
 class UploadImagesScreen extends StatefulWidget {
   final EshopManager eshopManager;
-  final List<String> images;
+  late List<String?> images;
 
-  UploadImagesScreen(this.eshopManager, this.images);
+  UploadImagesScreen({required this.eshopManager, required this.images});
 
   @override
   _UploadImagesScreenState createState() => _UploadImagesScreenState();
@@ -36,7 +35,7 @@ class _UploadImagesScreenState extends State<UploadImagesScreen> {
     });
   }
 
-  List<UploadButtonOverImage> getGridFromList(List<String> images) {
+  List<UploadButtonOverImage> getGridFromList(List<String?> images) {
     print('Image list size=${images.length}');
     int idx = 0;
     return images
@@ -81,7 +80,7 @@ class _UploadImagesScreenState extends State<UploadImagesScreen> {
 
 class UploadButtonOverImage extends StatefulWidget {
   final EshopManager eshopManager;
-  final List<String> images;
+  final List<String?> images;
   final idx;
   final void Function(int) onRemove;
 
@@ -124,31 +123,31 @@ class UploadButtonOverImageState extends State<UploadButtonOverImage> {
     }
   }
 
-  void uploadImageFromDevice() async {
-    // show a dialog to open a file
-    FilePickerCross myFile = await FilePickerCross.importFromStorage(
-        type: FileTypeCross.custom,
-        // Available: `any`, `audio`, `image`, `video`, `custom`. Note: not available using FDE
-        fileExtension:
-            '.jpg, .jpeg' // Only if FileTypeCross.custom . May be any file extension like `.dot`, `.ppt,.pptx,.odp`
-        );
-
-    if (myFile.toUint8List() != null) {
-      String uploaded = await CommodityModel(widget.eshopManager).uploadFile(
-        UploadFile(
-          bytes: myFile.toUint8List(),
-          name: myFile.fileName,
-        ),
-      );
-      if (uploaded != null) {
-        setImageToItem(uploaded);
-        print('uploaded: ${uploaded}');
-        setState(() {
-          _imageUrl = getItemImageUrlByIdx();
-        });
-      }
-    }
-  }
+  // void uploadImageFromDevice() async {
+  //   // show a dialog to open a file
+  //   FilePickerCross myFile = await FilePickerCross.importFromStorage(
+  //       type: FileTypeCross.custom,
+  //       // Available: `any`, `audio`, `image`, `video`, `custom`. Note: not available using FDE
+  //       fileExtension:
+  //           '.jpg, .jpeg' // Only if FileTypeCross.custom . May be any file extension like `.dot`, `.ppt,.pptx,.odp`
+  //       );
+  //
+  //   if (myFile.toUint8List() != null) {
+  //     String uploaded = await CommodityModel(widget.eshopManager).uploadFile(
+  //       UploadFile(
+  //         bytes: myFile.toUint8List(),
+  //         name: myFile.fileName,
+  //       ),
+  //     );
+  //     if (uploaded != null) {
+  //       setImageToItem(uploaded);
+  //       print('uploaded: ${uploaded}');
+  //       setState(() {
+  //         _imageUrl = getItemImageUrlByIdx();
+  //       });
+  //     }
+  //   }
+  // }
 
   @override
   void initState() {
@@ -183,7 +182,7 @@ class UploadButtonOverImageState extends State<UploadButtonOverImage> {
                 Container(height: EshopNumbers.CREATE_IMAGE_HEIGHT,),
                 IconButton(
                   onPressed: () {
-                    _navigateAndDisplayImageUrlSelectorScreen(widget.images[widget.idx]);
+                    _navigateAndDisplayImageUrlSelectorScreen(widget.images[widget.idx]!);
                   },
                   icon: Icon(
                     Icons.cloud_upload,

@@ -6,9 +6,9 @@ import 'package:http/http.dart' as http;
 import 'commodity.dart';
 
 class NetworkHelper {
-  final String basicCridentials;
+  late String basicCridentials;
 
-  NetworkHelper({this.basicCridentials});
+  NetworkHelper({required this.basicCridentials});
 
   Map<String, String> basicAuthorizationHeader() {
     return {
@@ -28,7 +28,7 @@ class NetworkHelper {
 
   Future<dynamic> getData(String url) async {
     try {
-      http.Response uriResponse = await http.get(url);
+      http.Response uriResponse = await http.get(Uri.parse(url));
       return decodeResponse(uriResponse);
     } catch (e) {
       print(e);
@@ -54,7 +54,7 @@ class NetworkHelper {
 
   Future<dynamic> getPrivateData(String url) async {
     try {
-      var resp = await http.get(url, headers: basicAuthorizationHeader());
+      var resp = await http.get(Uri.parse(url), headers: basicAuthorizationHeader());
       return decodeResponse(resp);
     } catch (e) {
       print(e);
@@ -64,17 +64,17 @@ class NetworkHelper {
   Future<dynamic> postData(String url, String json) async {
     try {
       http.Response resp =
-          await http.post(url, headers: basicAuthorizationHeader(), body: json);
+          await http.post(Uri.parse(url), headers: basicAuthorizationHeader(), body: json);
       return decodeResponse(resp);
     } catch (e) {
       print(e);
     }
   }
 
-  Future<dynamic> putData(String url, String json) async {
+  Future<dynamic> putData(String url, String? json) async {
     try {
       http.Response resp =
-          await http.put(url, headers: basicAuthorizationHeader(), body: json);
+          await http.put(Uri.parse(url), headers: basicAuthorizationHeader(), body: json);
       return decodeResponse(resp);
     } catch (e) {
       print(e);
@@ -83,7 +83,7 @@ class NetworkHelper {
 
   Future<dynamic> deleteData(String url) async {
     try {
-      var resp = await http.delete(url, headers: basicAuthorizationHeader());
+      var resp = await http.delete(Uri.parse(url), headers: basicAuthorizationHeader());
       if (resp.statusCode == 200) {
         return jsonDecode(resp.body);
       } else {

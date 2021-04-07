@@ -14,7 +14,7 @@ class SelectTypeScreen extends StatefulWidget {
 }
 
 class _SelectTypeScreen extends State<SelectTypeScreen> {
-  TypesModel _typesModel;
+  late TypesModel _typesModel;
   List<Widget> _selectTypeButtons = [];
 
   void _updateUI(List<CommodityType> types) {
@@ -35,7 +35,7 @@ class _SelectTypeScreen extends State<SelectTypeScreen> {
 
   @override
   void initState() {
-    _typesModel = TypesModel(widget.manager);
+    _typesModel = TypesModel(widget.manager,);
     _loadTypes();
   }
 

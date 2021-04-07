@@ -17,8 +17,8 @@ class ItemBranchEditScreen extends StatefulWidget {
 
 class _ItemBranchState extends State<ItemBranchEditScreen> {
   GlobalKey<FormState> formGlobalKey = GlobalKey<FormState>();
-  CommodityModel _commodityModel;
-  AttributeModel _attributeModel;
+  late CommodityModel _commodityModel;
+  late AttributeModel _attributeModel;
   List<CommodityAttribute> attributes = [];
 
   @override
@@ -44,7 +44,7 @@ class _ItemBranchState extends State<ItemBranchEditScreen> {
       floatingActionButton: new Builder(builder: (BuildContext context) {
         return new FloatingActionButton(
           onPressed: () async {
-            if (formGlobalKey.currentState.validate()) {
+            if (formGlobalKey.currentState!.validate()) {
               Message message =
                   await _commodityModel.updateBranch(widget.branch);
               if (Message.SUCCESS == message.status) {
@@ -72,7 +72,7 @@ class _ItemBranchState extends State<ItemBranchEditScreen> {
 
   void _loadAttributes() async {
     List<CommodityAttribute> attributesFromModel =
-        await _attributeModel.getAttributes(widget.item.type.id);
+        await _attributeModel.getAttributes(widget.item.type.id!);
     if (attributesFromModel != null) {
       setState(() {
         attributes = attributesFromModel;
@@ -92,7 +92,7 @@ class _ItemBranchState extends State<ItemBranchEditScreen> {
 class BranchDetailsCard extends StatelessWidget {
   final CommodityBranch branch;
 
-  const BranchDetailsCard({Key key, this.branch}) : super(key: key);
+  const BranchDetailsCard({Key? key, required this.branch}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -113,13 +113,13 @@ class BranchDetailsCard extends StatelessWidget {
                     labelText: 'Amount',
                   ),
                   validator: (value) {
-                    if (value.isEmpty) {
+                    if (value!.isEmpty) {
                       return 'Please enter amount';
                     }
                     return null;
                   },
                   onChanged: (value) {
-                    branch.amount = int.tryParse(value);
+                    branch.amount = int.tryParse(value)!;
                   },
                 ),
               ),
@@ -135,7 +135,7 @@ class BranchDetailsCard extends StatelessWidget {
                     labelText: 'Price',
                   ),
                   validator: (value) {
-                    if (value.isEmpty) {
+                    if (value!.isEmpty) {
                       return 'Please enter price per item';
                     }
                     if (double.tryParse(value) == null) {
@@ -144,7 +144,7 @@ class BranchDetailsCard extends StatelessWidget {
                     return null;
                   },
                   onChanged: (value) {
-                    branch.price = double.tryParse(value);
+                    branch.price = double.tryParse(value)!;
                   },
                 ),
               ),
@@ -160,7 +160,7 @@ class ItemAttributesCard extends StatefulWidget {
   final List<CommodityAttribute> attributes;
   final CommodityBranch branch;
 
-  ItemAttributesCard({Key key, this.attributes, this.branch}) : super(key: key);
+  ItemAttributesCard({Key? key, required this.attributes, required this.branch}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => ItemAttributesCardState(branch);
@@ -192,9 +192,9 @@ class ItemAttributesCardState extends State<ItemAttributesCard> {
                 ),
                 value: attributePresent(
                     AttributeDto(attr.name, v.value, attr.measure)),
-                onChanged: (bool value) {
+                onChanged: (bool? value) {
                   setState(() {
-                    if (value) {
+                    if (value!) {
                       branch.attributes
                           .add(AttributeDto(attr.name, v.value, attr.measure));
                     } else {

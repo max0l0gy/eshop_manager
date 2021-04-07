@@ -14,7 +14,7 @@ class OrdersScreen extends StatefulWidget {
 
 class _OrdersScreenState extends State<OrdersScreen> {
   List<Widget> _ordersListView = [];
-  OrderModel _orderModel;
+  late OrderModel _orderModel;
 
   void _updateUI(OrderGrid orderGrid) {
     if (orderGrid != null) {

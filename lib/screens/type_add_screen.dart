@@ -12,10 +12,10 @@ class TypeAddScreen extends StatefulWidget {
 }
 
 class _TypeAddScreenState extends State<TypeAddScreen> {
-  String name;
-  String description;
+  late String name;
+  late String description;
   final _formKey = GlobalKey<FormState>();
-  TypesModel _typesModel;
+  late TypesModel _typesModel;
 
   @override
   void initState() {
@@ -24,7 +24,7 @@ class _TypeAddScreenState extends State<TypeAddScreen> {
 
   void addTypeAction() {
     setState(() async {
-      if (_formKey.currentState.validate()) {
+      if (_formKey.currentState!.validate()) {
         // Process data.
         print('Process form data');
         print('Name $name');
@@ -57,7 +57,7 @@ class _TypeAddScreenState extends State<TypeAddScreen> {
                   hintText: 'Enter commodity type name',
                 ),
                 validator: (value) {
-                  if (value.isEmpty) {
+                  if (value!.isEmpty) {
                     return 'Please enter some name';
                   }
                   return null;
@@ -75,7 +75,7 @@ class _TypeAddScreenState extends State<TypeAddScreen> {
                   hintText: 'Enter description of type',
                 ),
                 validator: (value) {
-                  if (value.isEmpty) {
+                  if (value!.isEmpty) {
                     return 'Please enter some description';
                   }
                   return null;

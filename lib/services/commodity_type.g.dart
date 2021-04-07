@@ -8,7 +8,7 @@ part of 'commodity_type.dart';
 
 CommodityType _$CommodityTypeFromJson(Map<String, dynamic> json) {
   return CommodityType(
-    id: json['id'] as int,
+    id: json['id'] as int?,
     name: json['name'] as String,
     description: json['description'] as String,
   );

@@ -9,7 +9,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  EshopManager manager;
+  late EshopManager manager;
   @override
   void initState() {
     super.initState();
@@ -34,7 +34,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     hintText: 'E-mail',
                   ),
                   validator: (value) {
-                    if (value.isEmpty) {
+                    if (value!.isEmpty) {
                       return 'Please enter email';
                     }
                     return null;
@@ -53,7 +53,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     hintText: 'Password',
                   ),
                   validator: (value) {
-                    if (value.isEmpty) {
+                    if (value!.isEmpty) {
                       return 'Please enter password';
                     }
                     return null;
