@@ -5,7 +5,7 @@ import 'package:json_annotation/json_annotation.dart';
 import 'networking.dart';
 part 'customer_order.g.dart';
 
-const endpoint = EshopManagerProperties.managerEndpoint;
+const endpoint = EshopManagerProperties.API_ROOT_URL;
 const listAllOrdersUrl = '$endpoint/rest/api/private/order/list/';
 const orderStatusUpdate = '$endpoint/rest/api/private/order/{id}/{status}';
 

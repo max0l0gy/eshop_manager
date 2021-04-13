@@ -14,7 +14,7 @@ import 'networking.dart';
 /// the star denotes the source file name.
 part 'commodity.g.dart';
 
-const endpoint = EshopManagerProperties.managerEndpoint;
+const endpoint = EshopManagerProperties.API_ROOT_URL;
 const listCommodityGridUrl =
     '$endpoint/rest/api/public/commodities/?page={page}&rows={rows}';
 const fileUpload = '$endpoint/rest/api/private/file';
@@ -174,7 +174,8 @@ class CommodityBranch {
 class AttributeDto {
   String name;
   String value;
-  String measure;
+  @JsonKey(includeIfNull: false)
+  String? measure;
 
   AttributeDto(this.name, this.value, this.measure);
 
@@ -206,7 +207,7 @@ class RequestCommodity {
   late int typeId;
   late Set<int> propertyValues = {};
   late List<String?> images = [];
-  late int branchId;
+  late int? branchId;
 
   RequestCommodity({
       required this.name,
@@ -220,16 +221,18 @@ class RequestCommodity {
       required this.images,
       required this.branchId});
 
-  RequestCommodity.currencyCode({required this.currencyCode}) {
-    if (this.propertyValues == null) propertyValues = {};
-    if (this.images == null) {
-      this.images = [];
+  RequestCommodity.withCurrencyCode({required this.currencyCode, required this.typeId} ) {
+    this.name = '';
+    this.shortDescription = '';
+    this.overview = '';
+    propertyValues = {};
+    if (this.images.length==0) {
       for (int i = 0; i < EshopNumbers.UPLOAD_IMAGES; i++) {
-        images.add(null);
+        images.add('');
       }
     }
-    if (this.amount == null) this.amount = 1;
-    if (this.price == null) this.price = 50;
+    this.amount = 1;
+    this.price = 50;
   }
 
   Map<String, dynamic> toJson() => _$RequestCommodityToJson(this);

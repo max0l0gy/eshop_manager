@@ -5,7 +5,7 @@ import 'package:json_annotation/json_annotation.dart';
 import 'networking.dart';
 part 'attribute.g.dart';
 
-const endpoint = EshopManagerProperties.managerEndpoint;
+const endpoint = EshopManagerProperties.API_ROOT_URL;
 const listAttributesUrl = '$endpoint/rest/api/public/attributes/{typeId}';
 const addAttributeUrl = '$endpoint/rest/api/private/attribute/';
 const deleteAttributeValueUrl =
@@ -58,7 +58,8 @@ class CommodityAttribute {
   final int id;
   final String name;
   final String dataType;
-  final String measure;
+  @JsonKey(includeIfNull: false)
+  final String? measure;
   final List<AttributeValue> values;
 
   CommodityAttribute(
@@ -86,7 +87,8 @@ class RequestAttributeValue {
   late int typeId;
   late String name;
   late String dataType;
-  late String measure;
+  @JsonKey(includeIfNull: false)
+  String? measure;
   late String value;
 
   RequestAttributeValue({

@@ -9,8 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart' show timeDilation;
 import 'package:flutter/services.dart';
 
-import 'upload_images_screen.dart';
-
 class ItemAddScreen extends StatefulWidget {
   final EshopManager eshopManager;
   final CommodityType type;
@@ -25,7 +23,10 @@ class _ItemAddState extends State<ItemAddScreen> {
   final _formKey = GlobalKey<FormState>();
   late CommodityModel _itemModel;
   late AttributeModel _attributeModel;
-  RequestCommodity _item = RequestCommodity.currencyCode(currencyCode: 'EUR');
+  late RequestCommodity _item = RequestCommodity.withCurrencyCode(
+    currencyCode: 'USD',
+    typeId: widget.type.id!,
+  );
   List<CommodityAttribute> _attributes = [];
 
   @override
@@ -38,18 +39,21 @@ class _ItemAddState extends State<ItemAddScreen> {
         key: _formKey,
         child: ListView(
           children: [
-            Column(
-              children: [
-                ItemDetailsCard(_item, widget.eshopManager),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(3, 0, 33, 100),
-                  child: ItemAttributesCard(
-                    item: _item,
-                    attributes: _attributes,
-                  ),
-                ),
-              ],
-            )
+
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ItemDetailsCard(
+                _item,
+                widget.eshopManager,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(3, 0, 75, 100),
+              child: ItemAttributesCard(
+                item: _item,
+                attributes: _attributes,
+              ),
+            ),
           ],
         ),
       ),
@@ -74,7 +78,7 @@ class _ItemAddState extends State<ItemAddScreen> {
         return;
       }
       //validate images of item
-      if (_item.images.length == 0 || _item.images.contains(null)) {
+      if (_item.images.length == 0 || _item.images.contains('')) {
         Scaffold.of(context).showSnackBar(SnackBar(
             content: Text(
                 'You should upload ${EshopNumbers.UPLOAD_IMAGES.toString()} images of item')));
@@ -114,7 +118,6 @@ class _ItemAddState extends State<ItemAddScreen> {
   void initState() {
     _itemModel = CommodityModel(widget.eshopManager);
     _attributeModel = AttributeModel(widget.eshopManager);
-    _item.typeId = widget.type.id!;
     loadAttributes();
   }
 }
@@ -142,36 +145,33 @@ class ItemDetailCardState extends State<ItemDetailsCard> {
           children: [
             Row(
               children: [
-                Expanded(
-                  flex: 3,
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Container(
-                          width: 200,
-                          child: TextFormField(
-                            maxLines: null,
-                            initialValue: widget.item.name,
-                            decoration: const InputDecoration(
-                              hintText: 'Enter item name',
-                            ),
-                            validator: CommodityValidation.name,
-                            onChanged: (value) {
-                              widget.item.name = value.trim();
-                            },
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Container(
+                        width: 200,
+                        child: TextFormField(
+                          maxLines: null,
+                          initialValue: widget.item.name,
+                          decoration: const InputDecoration(
+                            hintText: 'Enter item name',
                           ),
+                          validator: CommodityValidation.name,
+                          onChanged: (value) {
+                            widget.item.name = value.trim();
+                          },
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
                 Expanded(
                   flex: 2,
-                  child: UploadImagesScreen(
+                  child: ItemUploadImage(
                     images: widget.item.images,
                     eshopManager: widget.eshopManager,
                   ),
@@ -271,7 +271,8 @@ class ItemAttributesCard extends StatefulWidget {
   final List<CommodityAttribute> attributes;
   final RequestCommodity item;
 
-  ItemAttributesCard({Key? key, required this.attributes, required this.item}) : super(key: key);
+  ItemAttributesCard({Key? key, required this.attributes, required this.item})
+      : super(key: key);
 
   @override
   State<StatefulWidget> createState() => ItemAttributesCardState(item);

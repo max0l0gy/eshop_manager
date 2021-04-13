@@ -109,16 +109,25 @@ AttributeDto _$AttributeDtoFromJson(Map<String, dynamic> json) {
   return AttributeDto(
     json['name'] as String,
     json['value'] as String,
-    json['measure'] as String,
+    json['measure'] as String?,
   );
 }
 
-Map<String, dynamic> _$AttributeDtoToJson(AttributeDto instance) =>
-    <String, dynamic>{
-      'name': instance.name,
-      'value': instance.value,
-      'measure': instance.measure,
-    };
+Map<String, dynamic> _$AttributeDtoToJson(AttributeDto instance) {
+  final val = <String, dynamic>{
+    'name': instance.name,
+    'value': instance.value,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('measure', instance.measure);
+  return val;
+}
 
 RequestCommodity _$RequestCommodityFromJson(Map<String, dynamic> json) {
   return RequestCommodity(
@@ -132,7 +141,7 @@ RequestCommodity _$RequestCommodityFromJson(Map<String, dynamic> json) {
     propertyValues:
         (json['propertyValues'] as List<dynamic>).map((e) => e as int).toSet(),
     images: (json['images'] as List<dynamic>).map((e) => e as String?).toList(),
-    branchId: json['branchId'] as int,
+    branchId: json['branchId'] as int?,
   );
 }
 

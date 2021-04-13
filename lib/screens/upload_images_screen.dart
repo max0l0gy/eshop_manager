@@ -1,8 +1,6 @@
 import 'package:E0ShopManager/screens/upload_image_set_url_screen.dart';
-import 'package:E0ShopManager/services/commodity.dart';
 import 'package:E0ShopManager/utils/constants.dart';
 import 'package:E0ShopManager/utils/eshop_manager.dart';
-
 import 'package:flutter/material.dart';
 
 class UploadImagesScreen extends StatefulWidget {
@@ -53,7 +51,7 @@ class _UploadImagesScreenState extends State<UploadImagesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Upload images to commodity'),
+        title: const Text('Set images'),
       ),
       body: Center(
         child: GridView.count(
@@ -179,10 +177,13 @@ class UploadButtonOverImageState extends State<UploadButtonOverImage> {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                Container(height: EshopNumbers.CREATE_IMAGE_HEIGHT,),
+                Container(
+                  height: EshopNumbers.CREATE_IMAGE_HEIGHT,
+                ),
                 IconButton(
                   onPressed: () {
-                    _navigateAndDisplayImageUrlSelectorScreen(widget.images[widget.idx]!);
+                    _navigateAndDisplayImageUrlSelectorScreen(
+                        widget.images[widget.idx]!);
                   },
                   icon: Icon(
                     Icons.cloud_upload,

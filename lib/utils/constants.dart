@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class EshopManagerProperties {
-  static const String managerEndpoint = 'https://titsonfire.store/web';
+  static const String API_ROOT_URL = 'https://titsonfire.store/web';
 }
 
 const kTextFieldInputDecoration = InputDecoration(

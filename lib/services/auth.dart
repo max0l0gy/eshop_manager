@@ -4,7 +4,7 @@ import 'package:E0ShopManager/utils/eshop_manager.dart';
 
 import 'networking.dart';
 
-const endpoint = EshopManagerProperties.managerEndpoint;
+const endpoint = EshopManagerProperties.API_ROOT_URL;
 const checkAuthUrl = '$endpoint/rest/api/private/checkAuth';
 
 class Authenticate {

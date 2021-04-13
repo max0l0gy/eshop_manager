@@ -1,4 +1,3 @@
-import 'package:E0ShopManager/screens/item_add_screen.dart';
 import 'package:E0ShopManager/screens/select_type_screen.dart';
 import 'package:E0ShopManager/services/commodity.dart';
 import 'package:E0ShopManager/utils/eshop_manager.dart';
@@ -23,8 +22,6 @@ class _ItemsScreenState extends State<ItemsScreen> {
     if (commodityGrid != null) {
       setState(() {
         _itemListView = _getItemListView(commodityGrid.commodityData);
-//        print('Loaded orders');
-//        print(orderGrid);
       });
     } else {
       //
