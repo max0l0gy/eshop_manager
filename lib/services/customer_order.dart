@@ -5,12 +5,12 @@ import 'package:json_annotation/json_annotation.dart';
 import 'networking.dart';
 part 'customer_order.g.dart';
 
-const endpoint = EshopManagerProperties.managerEndpoint;
+const endpoint = EshopManagerProperties.API_ROOT_URL;
 const listAllOrdersUrl = '$endpoint/rest/api/private/order/list/';
 const orderStatusUpdate = '$endpoint/rest/api/private/order/{id}/{status}';
 
 class OrderModel {
-  static Map<String, String> _actions = {
+  final Map<String, String> _actions = {
     'PAYMENT_APPROVED': 'Paid',
     'PREPARING_TO_SHIP': 'Preparing to shipment',
     'DISPATCHED': 'Dispatched',
@@ -18,15 +18,15 @@ class OrderModel {
     'CANCELED_BY_CUSTOMER': 'Canceled by customer',
     'CANCELED_BY_ADMIN': 'Cancel'
   };
-  final EshopManager eshopManager;
-  NetworkHelper _networkHelper;
+  late EshopManager eshopManager;
+  late NetworkHelper _networkHelper;
 
   OrderModel(this.eshopManager) {
     _networkHelper =
         NetworkHelper(basicCridentials: eshopManager.getCridentials());
   }
 
-  static String actionName(String status) {
+  String? actionName(String status) {
     return _actions[status];
   }
 

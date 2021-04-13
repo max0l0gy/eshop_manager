@@ -12,7 +12,6 @@ class SetImgUrlScreen extends StatefulWidget {
 }
 
 class _SelectTypeScreen extends State<SetImgUrlScreen> {
-  String _imgUrl = '';
 
   @override
   Widget build(BuildContext context) {
@@ -31,13 +30,12 @@ class _SelectTypeScreen extends State<SetImgUrlScreen> {
                     hintText: 'Paste Image URL here',
                   ),
                   validator: (value) {
-                    if (value.isEmpty) {
+                    if (value!.isEmpty) {
                       return 'Please set image url';
                     }
                     return null;
                   },
                   onChanged: (value) {
-                    _imgUrl = value;
                     widget.imgUrl = value;
                   },
                 ),

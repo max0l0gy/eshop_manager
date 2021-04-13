@@ -6,12 +6,12 @@ import 'networking.dart';
 
 part 'customer.g.dart';
 
-const endpoint = EshopManagerProperties.managerEndpoint;
+const endpoint = EshopManagerProperties.API_ROOT_URL;
 const getCustomerByIdUrl = '$endpoint/rest/api/private/customer/id/{id}';
 
 class CommodityModel {
-  final EshopManager eshopManager;
-  NetworkHelper _networkHelper;
+  late EshopManager eshopManager;
+  late NetworkHelper _networkHelper;
 
   CommodityModel(this.eshopManager) {
     _networkHelper =

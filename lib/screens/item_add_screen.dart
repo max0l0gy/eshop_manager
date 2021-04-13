@@ -21,9 +21,12 @@ class ItemAddScreen extends StatefulWidget {
 
 class _ItemAddState extends State<ItemAddScreen> {
   final _formKey = GlobalKey<FormState>();
-  CommodityModel _itemModel;
-  AttributeModel _attributeModel;
-  RequestCommodity _item = RequestCommodity(currencyCode: 'EUR');
+  late CommodityModel _itemModel;
+  late AttributeModel _attributeModel;
+  late RequestCommodity _item = RequestCommodity.withCurrencyCode(
+    currencyCode: 'USD',
+    typeId: widget.type.id!,
+  );
   List<CommodityAttribute> _attributes = [];
 
   @override
@@ -36,18 +39,21 @@ class _ItemAddState extends State<ItemAddScreen> {
         key: _formKey,
         child: ListView(
           children: [
-            Column(
-              children: [
-                ItemDetailsCard(_item, widget.eshopManager),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(3, 0, 33, 100),
-                  child: ItemAttributesCard(
-                    item: _item,
-                    attributes: _attributes,
-                  ),
-                ),
-              ],
-            )
+
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ItemDetailsCard(
+                _item,
+                widget.eshopManager,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(3, 0, 75, 100),
+              child: ItemAttributesCard(
+                item: _item,
+                attributes: _attributes,
+              ),
+            ),
           ],
         ),
       ),
@@ -64,7 +70,7 @@ class _ItemAddState extends State<ItemAddScreen> {
   }
 
   void _updateOrderStateAction(BuildContext context) async {
-    if (_formKey.currentState.validate()) {
+    if (_formKey.currentState!.validate()) {
       //valodate attributes of item
       if (_item.propertyValues.length == 0) {
         Scaffold.of(context)
@@ -72,7 +78,7 @@ class _ItemAddState extends State<ItemAddScreen> {
         return;
       }
       //validate images of item
-      if (_item.images.length == 0 || _item.images.contains(null)) {
+      if (_item.images.length == 0 || _item.images.contains('')) {
         Scaffold.of(context).showSnackBar(SnackBar(
             content: Text(
                 'You should upload ${EshopNumbers.UPLOAD_IMAGES.toString()} images of item')));
@@ -102,7 +108,7 @@ class _ItemAddState extends State<ItemAddScreen> {
 
   Future<void> loadAttributes() async {
     List<CommodityAttribute> attr =
-        await _attributeModel.getAttributes(widget.type.id);
+        await _attributeModel.getAttributes(widget.type.id!);
     setState(() {
       _attributes = attr;
     });
@@ -112,7 +118,6 @@ class _ItemAddState extends State<ItemAddScreen> {
   void initState() {
     _itemModel = CommodityModel(widget.eshopManager);
     _attributeModel = AttributeModel(widget.eshopManager);
-    _item.typeId = widget.type.id;
     loadAttributes();
   }
 }
@@ -140,31 +145,28 @@ class ItemDetailCardState extends State<ItemDetailsCard> {
           children: [
             Row(
               children: [
-                Expanded(
-                  flex: 3,
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Container(
-                          width: 200,
-                          child: TextFormField(
-                            maxLines: null,
-                            initialValue: widget.item.name,
-                            decoration: const InputDecoration(
-                              hintText: 'Enter item name',
-                            ),
-                            validator: CommodityValidation.name,
-                            onChanged: (value) {
-                              widget.item.name = value.trim();
-                            },
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Container(
+                        width: 200,
+                        child: TextFormField(
+                          maxLines: null,
+                          initialValue: widget.item.name,
+                          decoration: const InputDecoration(
+                            hintText: 'Enter item name',
                           ),
+                          validator: CommodityValidation.name,
+                          onChanged: (value) {
+                            widget.item.name = value.trim();
+                          },
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
                 Expanded(
@@ -220,13 +222,13 @@ class ItemDetailCardState extends State<ItemDetailsCard> {
                           hintText: 'Enter amount of items',
                         ),
                         validator: (value) {
-                          if (value.isEmpty) {
+                          if (value!.isEmpty) {
                             return 'Please enter amount';
                           }
                           return null;
                         },
                         onChanged: (value) {
-                          widget.item.amount = int.tryParse(value);
+                          widget.item.amount = int.tryParse(value)!;
                         },
                       ),
                     ),
@@ -241,7 +243,7 @@ class ItemDetailCardState extends State<ItemDetailsCard> {
                           hintText: 'Enter price per item',
                         ),
                         validator: (value) {
-                          if (value.isEmpty) {
+                          if (value!.isEmpty) {
                             return 'Please enter price per item';
                           }
                           if (double.tryParse(value) == null) {
@@ -250,7 +252,7 @@ class ItemDetailCardState extends State<ItemDetailsCard> {
                           return null;
                         },
                         onChanged: (value) {
-                          widget.item.price = double.tryParse(value);
+                          widget.item.price = double.tryParse(value)!;
                         },
                       ),
                     ),
@@ -269,7 +271,8 @@ class ItemAttributesCard extends StatefulWidget {
   final List<CommodityAttribute> attributes;
   final RequestCommodity item;
 
-  ItemAttributesCard({Key key, this.attributes, this.item}) : super(key: key);
+  ItemAttributesCard({Key? key, required this.attributes, required this.item})
+      : super(key: key);
 
   @override
   State<StatefulWidget> createState() => ItemAttributesCardState(item);
@@ -296,9 +299,9 @@ class ItemAttributesCardState extends State<ItemAttributesCard> {
                   ],
                 ),
                 value: item.propertyValues.contains(v.id),
-                onChanged: (bool value) {
+                onChanged: (bool? value) {
                   setState(() {
-                    if (value) {
+                    if (value!) {
                       item.propertyValues.add(v.id);
                       timeDilation = EshopNumbers.DELAITION_MAX;
                     } else {

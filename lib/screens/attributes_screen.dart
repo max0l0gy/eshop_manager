@@ -17,7 +17,7 @@ class AttributesScreen extends StatefulWidget {
 
 class _AttributesState extends State<AttributesScreen> {
   List<DataRow> attributes = [];
-  AttributeModel _attributeModel;
+  late AttributeModel _attributeModel;
 
   @override
   Widget build(BuildContext context) {
@@ -95,7 +95,7 @@ class _AttributesState extends State<AttributesScreen> {
 
   void _loadAttributes() async {
     List<CommodityAttribute> attributesFromModel =
-        await _attributeModel.getAttributes(widget.type.id);
+        await _attributeModel.getAttributes(widget.type.id!);
     if (attributesFromModel != null) {
       setState(() {
         attributes = convertAttributes(attributesFromModel);

@@ -11,10 +11,9 @@ Message _$MessageFromJson(Map<String, dynamic> json) {
     json['status'] as String,
     json['url'] as String,
     json['message'] as String,
-    (json['errors'] as List)
-        ?.map((e) =>
-            e == null ? null : ErrorDetail.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    (json['errors'] as List<dynamic>)
+        .map((e) => ErrorDetail.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -22,7 +21,7 @@ Map<String, dynamic> _$MessageToJson(Message instance) => <String, dynamic>{
       'status': instance.status,
       'url': instance.url,
       'message': instance.message,
-      'errors': instance.errors?.map((e) => e?.toJson())?.toList(),
+      'errors': instance.errors.map((e) => e.toJson()).toList(),
     };
 
 ErrorDetail _$ErrorDetailFromJson(Map<String, dynamic> json) {
@@ -43,10 +42,9 @@ CommodityGrid _$CommodityGridFromJson(Map<String, dynamic> json) {
     json['totalPages'] as int,
     json['currentPage'] as int,
     json['totalRecords'] as int,
-    (json['commodityData'] as List)
-        ?.map((e) =>
-            e == null ? null : Commodity.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    (json['commodityData'] as List<dynamic>)
+        .map((e) => Commodity.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -55,8 +53,7 @@ Map<String, dynamic> _$CommodityGridToJson(CommodityGrid instance) =>
       'totalPages': instance.totalPages,
       'currentPage': instance.currentPage,
       'totalRecords': instance.totalRecords,
-      'commodityData':
-          instance.commodityData?.map((e) => e?.toJson())?.toList(),
+      'commodityData': instance.commodityData.map((e) => e.toJson()).toList(),
     };
 
 Commodity _$CommodityFromJson(Map<String, dynamic> json) {
@@ -66,15 +63,11 @@ Commodity _$CommodityFromJson(Map<String, dynamic> json) {
     json['shortDescription'] as String,
     json['overview'] as String,
     json['dateOfCreation'] as int,
-    json['type'] == null
-        ? null
-        : CommodityType.fromJson(json['type'] as Map<String, dynamic>),
-    (json['images'] as List)?.map((e) => e as String)?.toList(),
-    (json['branches'] as List)
-        ?.map((e) => e == null
-            ? null
-            : CommodityBranch.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    CommodityType.fromJson(json['type'] as Map<String, dynamic>),
+    (json['images'] as List<dynamic>).map((e) => e as String).toList(),
+    (json['branches'] as List<dynamic>)
+        .map((e) => CommodityBranch.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -84,9 +77,9 @@ Map<String, dynamic> _$CommodityToJson(Commodity instance) => <String, dynamic>{
       'shortDescription': instance.shortDescription,
       'overview': instance.overview,
       'dateOfCreation': instance.dateOfCreation,
-      'type': instance.type?.toJson(),
+      'type': instance.type.toJson(),
       'images': instance.images,
-      'branches': instance.branches?.map((e) => e?.toJson())?.toList(),
+      'branches': instance.branches.map((e) => e.toJson()).toList(),
     };
 
 CommodityBranch _$CommodityBranchFromJson(Map<String, dynamic> json) {
@@ -94,12 +87,11 @@ CommodityBranch _$CommodityBranchFromJson(Map<String, dynamic> json) {
     json['id'] as int,
     json['commodityId'] as int,
     json['amount'] as int,
-    (json['price'] as num)?.toDouble(),
+    (json['price'] as num).toDouble(),
     json['currency'] as String,
-    (json['attributes'] as List)
-        ?.map((e) =>
-            e == null ? null : AttributeDto.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    (json['attributes'] as List<dynamic>)
+        .map((e) => AttributeDto.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -110,23 +102,32 @@ Map<String, dynamic> _$CommodityBranchToJson(CommodityBranch instance) =>
       'amount': instance.amount,
       'price': instance.price,
       'currency': instance.currency,
-      'attributes': instance.attributes?.map((e) => e?.toJson())?.toList(),
+      'attributes': instance.attributes.map((e) => e.toJson()).toList(),
     };
 
 AttributeDto _$AttributeDtoFromJson(Map<String, dynamic> json) {
   return AttributeDto(
     json['name'] as String,
     json['value'] as String,
-    json['measure'] as String,
+    json['measure'] as String?,
   );
 }
 
-Map<String, dynamic> _$AttributeDtoToJson(AttributeDto instance) =>
-    <String, dynamic>{
-      'name': instance.name,
-      'value': instance.value,
-      'measure': instance.measure,
-    };
+Map<String, dynamic> _$AttributeDtoToJson(AttributeDto instance) {
+  final val = <String, dynamic>{
+    'name': instance.name,
+    'value': instance.value,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('measure', instance.measure);
+  return val;
+}
 
 RequestCommodity _$RequestCommodityFromJson(Map<String, dynamic> json) {
   return RequestCommodity(
@@ -134,13 +135,13 @@ RequestCommodity _$RequestCommodityFromJson(Map<String, dynamic> json) {
     shortDescription: json['shortDescription'] as String,
     overview: json['overview'] as String,
     amount: json['amount'] as int,
-    price: (json['price'] as num)?.toDouble(),
+    price: (json['price'] as num).toDouble(),
     currencyCode: json['currencyCode'] as String,
     typeId: json['typeId'] as int,
     propertyValues:
-        (json['propertyValues'] as List)?.map((e) => e as int)?.toSet(),
-    images: (json['images'] as List)?.map((e) => e as String)?.toList(),
-    branchId: json['branchId'] as int,
+        (json['propertyValues'] as List<dynamic>).map((e) => e as int).toSet(),
+    images: (json['images'] as List<dynamic>).map((e) => e as String?).toList(),
+    branchId: json['branchId'] as int?,
   );
 }
 
@@ -153,7 +154,7 @@ Map<String, dynamic> _$RequestCommodityToJson(RequestCommodity instance) =>
       'price': instance.price,
       'currencyCode': instance.currencyCode,
       'typeId': instance.typeId,
-      'propertyValues': instance.propertyValues?.toList(),
+      'propertyValues': instance.propertyValues.toList(),
       'images': instance.images,
       'branchId': instance.branchId,
     };

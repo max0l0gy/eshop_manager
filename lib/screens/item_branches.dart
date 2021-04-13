@@ -20,8 +20,8 @@ class ItemBranchesScreen extends StatefulWidget {
 
 class _ItemBranchesState extends State<ItemBranchesScreen> {
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  CommodityModel _itemModel;
-  Commodity _item;
+  late CommodityModel _itemModel;
+  late Commodity _item;
 
   @override
   Widget build(BuildContext context) {
@@ -52,6 +52,7 @@ class _ItemBranchesState extends State<ItemBranchesScreen> {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             SaveCommodityInfoButton(
+              eshopManager: widget.eshopManager,
               item: _item,
               itemModel: _itemModel,
               formGlobalKey: _formKey,
@@ -84,11 +85,11 @@ class SaveCommodityInfoButton extends StatelessWidget {
   final GlobalKey<FormState> formGlobalKey;
 
   const SaveCommodityInfoButton(
-      {Key key,
-      this.eshopManager,
-      this.item,
-      this.itemModel,
-      this.formGlobalKey})
+      {Key? key,
+      required this.eshopManager,
+      required this.item,
+      required this.itemModel,
+      required this.formGlobalKey})
       : super(key: key);
 
   @override
@@ -99,7 +100,7 @@ class SaveCommodityInfoButton extends StatelessWidget {
           shape: CircleBorder(),
           color: Colors.lime,
           onPressed: () async {
-            if (formGlobalKey.currentState.validate()) {
+            if (formGlobalKey.currentState!.validate()) {
               print('Ready to update item ${item.name}');
               Message mess = await itemModel.updateCommodity(item);
               print('MESSAGE ${mess.message}');
@@ -138,9 +139,9 @@ class ItemDetailsCard extends StatefulWidget {
   final CommodityModel itemModel;
 
   const ItemDetailsCard({
-    this.eshopManager,
-    this.item,
-    this.itemModel,
+    required this.eshopManager,
+    required this.item,
+    required this.itemModel,
   });
 
   @override
@@ -155,7 +156,7 @@ class _ItemDetailsCardState extends State<StatefulWidget> {
   final Commodity item;
   final EshopManager eshopManager;
 
-  _ItemDetailsCardState({this.item, this.eshopManager});
+  _ItemDetailsCardState({required this.item, required this.eshopManager});
 
   @override
   Widget build(BuildContext context) {
@@ -261,7 +262,7 @@ class BranchView extends StatefulWidget {
   final EshopManager eshopManager;
   final CommodityBranch branch;
   final Commodity item;
-  const BranchView({this.branch, this.eshopManager, this.item});
+  const BranchView({required this.branch, required this.eshopManager, required this.item});
 
   @override
   State<StatefulWidget> createState() => BranchViewState();
@@ -367,9 +368,9 @@ class BranchViewState extends State<BranchView> {
 
 class _BranchDetails extends StatelessWidget {
   const _BranchDetails({
-    this.amount,
-    this.price,
-    this.currency,
+    required this.amount,
+    required this.price,
+    required this.currency,
   });
   final int amount;
   final double price;

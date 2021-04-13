@@ -13,9 +13,9 @@ class TypeUpdateScreen extends StatefulWidget {
 }
 
 class _TypeUpdateScreenState extends State<TypeUpdateScreen> {
-  String name;
-  String description;
-  TypesModel _typesModel;
+  late String name;
+  late String description;
+  late TypesModel _typesModel;
   final _formKey = GlobalKey<FormState>();
 
   void updateUI(CommodityType type) {
@@ -51,7 +51,7 @@ class _TypeUpdateScreenState extends State<TypeUpdateScreen> {
                   hintText: 'Enter commodity type name',
                 ),
                 validator: (value) {
-                  if (value.isEmpty) {
+                  if (value!.isEmpty) {
                     return 'Please enter some name';
                   }
                   return null;
@@ -70,7 +70,7 @@ class _TypeUpdateScreenState extends State<TypeUpdateScreen> {
                   hintText: 'Enter description of type',
                 ),
                 validator: (value) {
-                  if (value.isEmpty) {
+                  if (value!.isEmpty) {
                     return 'Please enter some description';
                   }
                   return null;
@@ -86,7 +86,7 @@ class _TypeUpdateScreenState extends State<TypeUpdateScreen> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           setState(() async {
-            if (_formKey.currentState.validate()) {
+            if (_formKey.currentState!.validate()) {
               // Process data.
               print('Process form data');
               print('Name $name');

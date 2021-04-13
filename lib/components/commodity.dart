@@ -5,13 +5,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ItemUploadImage extends StatefulWidget {
-  final List<String> images;
-  final EshopManager eshopManager;
+  late List<String?> images;
+  late EshopManager eshopManager;
 
-  const ItemUploadImage({
-    Key key,
-    this.images,
-    this.eshopManager,
+  ItemUploadImage({
+    Key? key,
+    required List<String?> this.images,
+    required this.eshopManager,
   }) : super(key: key);
 
   @override
@@ -23,7 +23,7 @@ class ItemUploadImageState extends State<ItemUploadImage> {
 
   String getItemFirstImage() {
     return widget.images != null
-        ? (widget.images.length > 0 ? widget.images[0] ?? '' : '')
+        ? (widget.images!.length > 0 ? widget.images![0] ?? '' : '')
         : '';
   }
 
@@ -63,7 +63,7 @@ class ItemUploadImageState extends State<ItemUploadImage> {
     var formResp = await Navigator.push(
       context,
       MaterialPageRoute(builder: (context) {
-        return UploadImagesScreen(widget.eshopManager, widget.images);
+        return UploadImagesScreen( images: widget.images, eshopManager: widget.eshopManager,);
       }),
     );
     if (formResp == null) {
@@ -76,7 +76,7 @@ class ItemUploadImageState extends State<ItemUploadImage> {
 class UploadImagesButton extends StatelessWidget {
   final VoidCallback onPressed;
 
-  const UploadImagesButton({Key key, this.onPressed}) : super(key: key);
+  const UploadImagesButton({Key? key, required this.onPressed}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => IconButton(

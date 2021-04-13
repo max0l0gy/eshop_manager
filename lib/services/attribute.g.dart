@@ -11,21 +11,30 @@ CommodityAttribute _$CommodityAttributeFromJson(Map<String, dynamic> json) {
     json['id'] as int,
     json['name'] as String,
     json['dataType'] as String,
-    json['measure'] as String,
-    (json['values'] as List)
-        ?.map((e) => e == null ? null : AttributeValue.fromJson(e))
-        ?.toList(),
+    json['measure'] as String?,
+    (json['values'] as List<dynamic>)
+        .map((e) => AttributeValue.fromJson(e))
+        .toList(),
   );
 }
 
-Map<String, dynamic> _$CommodityAttributeToJson(CommodityAttribute instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'name': instance.name,
-      'dataType': instance.dataType,
-      'measure': instance.measure,
-      'values': instance.values?.map((e) => e?.toJson())?.toList(),
-    };
+Map<String, dynamic> _$CommodityAttributeToJson(CommodityAttribute instance) {
+  final val = <String, dynamic>{
+    'id': instance.id,
+    'name': instance.name,
+    'dataType': instance.dataType,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('measure', instance.measure);
+  val['values'] = instance.values.map((e) => e.toJson()).toList();
+  return val;
+}
 
 AttributeValue _$AttributeValueFromJson(Map<String, dynamic> json) {
   return AttributeValue(
@@ -46,17 +55,26 @@ RequestAttributeValue _$RequestAttributeValueFromJson(
     typeId: json['typeId'] as int,
     name: json['name'] as String,
     dataType: json['dataType'] as String,
-    measure: json['measure'] as String,
+    measure: json['measure'] as String?,
     value: json['value'] as String,
   );
 }
 
 Map<String, dynamic> _$RequestAttributeValueToJson(
-        RequestAttributeValue instance) =>
-    <String, dynamic>{
-      'typeId': instance.typeId,
-      'name': instance.name,
-      'dataType': instance.dataType,
-      'measure': instance.measure,
-      'value': instance.value,
-    };
+    RequestAttributeValue instance) {
+  final val = <String, dynamic>{
+    'typeId': instance.typeId,
+    'name': instance.name,
+    'dataType': instance.dataType,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('measure', instance.measure);
+  val['value'] = instance.value;
+  return val;
+}

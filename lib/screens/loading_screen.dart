@@ -1,4 +1,5 @@
 import 'package:E0ShopManager/screens/orders_screen.dart';
+import 'package:E0ShopManager/screens/portfolio_list_screen.dart';
 import 'package:E0ShopManager/screens/types_screen.dart';
 import 'package:E0ShopManager/utils/eshop_manager.dart';
 import 'package:flutter/material.dart';
@@ -30,8 +31,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              RaisedButton(
-                color: Colors.pink,
+              TextButton(
                 onPressed: () {
                   Navigator.push(
                     context,
@@ -44,9 +44,9 @@ class _LoadingScreenState extends State<LoadingScreen> {
                   "My Types of Items",
                   style: TextStyle(fontSize: 22.0),
                 ),
+                style: _loadButtonStyle,
               ),
-              RaisedButton(
-                color: Colors.pink,
+              TextButton(
                 onPressed: () {
                   Navigator.push(
                     context,
@@ -59,9 +59,9 @@ class _LoadingScreenState extends State<LoadingScreen> {
                   "My Items",
                   style: TextStyle(fontSize: 22.0),
                 ),
+                style: _loadButtonStyle,
               ),
-              RaisedButton(
-                color: Colors.pink,
+              TextButton(
                 onPressed: () {
                   Navigator.push(
                     context,
@@ -74,6 +74,22 @@ class _LoadingScreenState extends State<LoadingScreen> {
                   "My Orders",
                   style: TextStyle(fontSize: 22.0),
                 ),
+                style: _loadButtonStyle,
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) {
+                      return PortfolioListScreen(widget.manager);
+                    }),
+                  );
+                },
+                child: Text(
+                  "My Portfolio",
+                  style: TextStyle(fontSize: 22.0),
+                ),
+                style: _loadButtonStyle,
               ),
             ],
           ),
@@ -81,4 +97,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
       ),
     );
   }
+
+  ButtonStyle _loadButtonStyle = TextButton.styleFrom(primary: Colors.green);
+
 }

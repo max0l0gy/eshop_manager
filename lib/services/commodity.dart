@@ -1,10 +1,8 @@
 import 'dart:convert';
-import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:E0ShopManager/utils/constants.dart';
 import 'package:E0ShopManager/utils/eshop_manager.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:quiver/core.dart';
 
@@ -16,7 +14,7 @@ import 'networking.dart';
 /// the star denotes the source file name.
 part 'commodity.g.dart';
 
-const endpoint = EshopManagerProperties.managerEndpoint;
+const endpoint = EshopManagerProperties.API_ROOT_URL;
 const listCommodityGridUrl =
     '$endpoint/rest/api/public/commodities/?page={page}&rows={rows}';
 const fileUpload = '$endpoint/rest/api/private/file';
@@ -25,8 +23,8 @@ const updateCommodityUrl = '$endpoint/rest/api/private/commodity';
 const updateBranchUrl = '$endpoint/rest/api/private/branch';
 
 class CommodityModel {
-  final EshopManager eshopManager;
-  NetworkHelper _networkHelper;
+  late EshopManager eshopManager;
+  late NetworkHelper _networkHelper;
 
   CommodityModel(this.eshopManager) {
     _networkHelper =
@@ -68,10 +66,10 @@ class CommodityModel {
 
 class UploadFile {
 
-  final String name;
-  final Uint8List bytes;
+  late String name;
+  late Uint8List bytes;
 
-  UploadFile({this.name, this.bytes});
+  UploadFile({required this.name, required this.bytes});
 
 }
 
@@ -176,7 +174,8 @@ class CommodityBranch {
 class AttributeDto {
   String name;
   String value;
-  String measure;
+  @JsonKey(includeIfNull: false)
+  String? measure;
 
   AttributeDto(this.name, this.value, this.measure);
 
@@ -199,38 +198,41 @@ class AttributeDto {
 
 @JsonSerializable()
 class RequestCommodity {
-  String name;
-  String shortDescription;
-  String overview;
-  int amount;
-  double price;
-  String currencyCode;
-  int typeId;
-  Set<int> propertyValues = {};
-  List<String> images = [];
-  int branchId;
+  late String name;
+  late String shortDescription;
+  late String overview;
+  late int amount;
+  late double price;
+  late String currencyCode;
+  late int typeId;
+  late Set<int> propertyValues = {};
+  late List<String?> images = [];
+  late int? branchId;
 
   RequestCommodity({
-    this.name,
-    this.shortDescription,
-    this.overview,
-    this.amount,
-    this.price,
-    this.currencyCode,
-    this.typeId,
-    this.propertyValues,
-    this.images,
-    this.branchId,
-  }) {
-    if (this.propertyValues == null) propertyValues = {};
-    if (this.images == null) {
-      this.images = [];
+      required this.name,
+      required this.shortDescription,
+      required this.overview,
+      required this.amount,
+      required this.price,
+      required this.currencyCode,
+      required this.typeId,
+      required this.propertyValues,
+      required this.images,
+      required this.branchId});
+
+  RequestCommodity.withCurrencyCode({required this.currencyCode, required this.typeId} ) {
+    this.name = '';
+    this.shortDescription = '';
+    this.overview = '';
+    propertyValues = {};
+    if (this.images.length==0) {
       for (int i = 0; i < EshopNumbers.UPLOAD_IMAGES; i++) {
-        images.add(null);
+        images.add('');
       }
     }
-    if (this.amount == null) this.amount = 1;
-    if (this.price == null) this.price = 50;
+    this.amount = 1;
+    this.price = 50;
   }
 
   Map<String, dynamic> toJson() => _$RequestCommodityToJson(this);

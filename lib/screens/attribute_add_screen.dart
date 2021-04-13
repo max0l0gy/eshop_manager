@@ -17,12 +17,12 @@ class AttributeAddScreen extends StatefulWidget {
 
 class _AttributesState extends State<AttributeAddScreen> {
   final _formKey = GlobalKey<FormState>();
-  String _name;
-  String _dataType;
-  String _measure;
-  String _value;
+  String _name = '';
+  String _dataType = '';
+  String _measure = '';
+  String _value = '';
   List<String> _dataTypeList = [];
-  AttributeModel _attributeModel;
+  AttributeModel? _attributeModel;
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +42,7 @@ class _AttributesState extends State<AttributeAddScreen> {
                   hintText: 'Enter attribute name',
                 ),
                 validator: (value) {
-                  if (value.isEmpty) {
+                  if (value!=null && value.isEmpty) {
                     return 'Please enter some name';
                   }
                   return null;
@@ -59,7 +59,7 @@ class _AttributesState extends State<AttributeAddScreen> {
                   hintText: 'Enter attribute value',
                 ),
                 validator: (value) {
-                  if (value.isEmpty) {
+                  if (value!=null && value.isEmpty) {
                     return 'Please enter some value';
                   }
                   return null;
@@ -76,7 +76,7 @@ class _AttributesState extends State<AttributeAddScreen> {
                   hintText: 'Enter measure (optional)',
                 ),
                 validator: (value) {
-                  if (value.isNotEmpty && value.contains(' ')) {
+                  if (value!=null && value.isNotEmpty && value.contains(' ')) {
                     return 'Measure should be a world';
                   }
                   return null;
@@ -118,9 +118,9 @@ class _AttributesState extends State<AttributeAddScreen> {
   }
 
   void _addAttributeAction() async {
-    if (_formKey.currentState.validate()) {
-      var resp = await _attributeModel.addAttribute(RequestAttributeValue(
-        typeId: widget.type.id,
+    if (_formKey.currentState!.validate()) {
+      var resp = await _attributeModel!.addAttribute(RequestAttributeValue(
+        typeId: widget.type.id!,
         name: _name,
         dataType: _dataType,
         measure: _measure,

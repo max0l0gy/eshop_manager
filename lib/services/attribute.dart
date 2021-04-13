@@ -5,7 +5,7 @@ import 'package:json_annotation/json_annotation.dart';
 import 'networking.dart';
 part 'attribute.g.dart';
 
-const endpoint = EshopManagerProperties.managerEndpoint;
+const endpoint = EshopManagerProperties.API_ROOT_URL;
 const listAttributesUrl = '$endpoint/rest/api/public/attributes/{typeId}';
 const addAttributeUrl = '$endpoint/rest/api/private/attribute/';
 const deleteAttributeValueUrl =
@@ -13,8 +13,8 @@ const deleteAttributeValueUrl =
 const listDataTypesUrl = '$endpoint/rest/api/public/attribute/value/dataTypes/';
 
 class AttributeModel {
-  final EshopManager eshopManager;
-  NetworkHelper _networkHelper;
+  late EshopManager eshopManager;
+  late NetworkHelper _networkHelper;
 
   AttributeModel(this.eshopManager) {
     _networkHelper =
@@ -58,7 +58,8 @@ class CommodityAttribute {
   final int id;
   final String name;
   final String dataType;
-  final String measure;
+  @JsonKey(includeIfNull: false)
+  final String? measure;
   final List<AttributeValue> values;
 
   CommodityAttribute(
@@ -83,18 +84,19 @@ class AttributeValue {
 
 @JsonSerializable(explicitToJson: true)
 class RequestAttributeValue {
-  final int typeId;
-  final String name;
-  final String dataType;
-  final String measure;
-  final String value;
+  late int typeId;
+  late String name;
+  late String dataType;
+  @JsonKey(includeIfNull: false)
+  String? measure;
+  late String value;
 
   RequestAttributeValue({
-    this.typeId,
-    this.name,
-    this.dataType,
-    this.measure,
-    this.value,
+    required this.typeId,
+    required this.name,
+    required this.dataType,
+    required this.measure,
+    required this.value,
   });
 
   Map<String, dynamic> toJson() => _$RequestAttributeValueToJson(this);
