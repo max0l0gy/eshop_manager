@@ -38,36 +38,38 @@ class _AttributesState extends State<AttributesScreen> {
     );
   }
 
-  DataTable _attributesTable() {
-    return DataTable(
-      columns: const <DataColumn>[
-        DataColumn(
-          label: Text(
-            'Name',
-            style: TextStyle(fontStyle: FontStyle.italic),
+  Widget _attributesTable() {
+    return ListView(children: [
+      DataTable(
+        columns: const <DataColumn>[
+          DataColumn(
+            label: Text(
+              'Name',
+              style: TextStyle(fontStyle: FontStyle.italic),
+            ),
           ),
-        ),
-        DataColumn(
-          label: Text(
-            'Value',
-            style: TextStyle(fontStyle: FontStyle.italic),
+          DataColumn(
+            label: Text(
+              'Value',
+              style: TextStyle(fontStyle: FontStyle.italic),
+            ),
           ),
-        ),
-        DataColumn(
-          label: Text(
-            'Mesure',
-            style: TextStyle(fontStyle: FontStyle.italic),
+          DataColumn(
+            label: Text(
+              'Mesure',
+              style: TextStyle(fontStyle: FontStyle.italic),
+            ),
           ),
-        ),
-        DataColumn(
-          label: Text(
-            'Delete',
-            style: TextStyle(fontStyle: FontStyle.italic),
+          DataColumn(
+            label: Text(
+              'Delete',
+              style: TextStyle(fontStyle: FontStyle.italic),
+            ),
           ),
-        ),
-      ],
-      rows: attributes,
-    );
+        ],
+        rows: attributes,
+      ),
+    ]);
   }
 
   void _navigateAndDisplaySelection(BuildContext context) async {
