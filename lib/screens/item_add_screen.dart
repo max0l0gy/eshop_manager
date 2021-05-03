@@ -94,10 +94,12 @@ class _ItemAddState extends State<ItemAddScreen> {
             Scaffold.of(context).showSnackBar(SnackBar(
                 content: Text(
                     'Try to load another images. Image url should be unique per item.')));
-          mess.errors.forEach((element) {
-            Scaffold.of(context)
-                .showSnackBar(SnackBar(content: Text('${element.message}')));
-          });
+          if(mess.errors!=null) {
+            mess.errors?.forEach((element) {
+              Scaffold.of(context)
+                  .showSnackBar(SnackBar(content: Text('${element.message}')));
+            });
+          }
           return;
         }
         Scaffold.of(context).showSnackBar(SnackBar(content: Text('Success')));
