@@ -1,3 +1,5 @@
+import 'dart:core';
+
 import 'package:E0ShopManager/components/commodity.dart';
 import 'package:E0ShopManager/services/commodity.dart';
 import 'package:E0ShopManager/utils/constants.dart';
@@ -31,21 +33,11 @@ class _ItemBranchesState extends State<ItemBranchesScreen> {
         ),
         body: Form(
           key: _formKey,
-          child: Column(
-            children: [
-              ItemDetailsCard(
-                eshopManager: widget.eshopManager,
-                item: _item,
-                itemModel: _itemModel,
-              ),
-              Expanded(
-                child: ListView(
-                  padding: const EdgeInsets.all(8.0),
-                  itemExtent: 106.0,
-                  children: _branches(),
-                ),
-              ),
-            ],
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(0, 0, 0, 40),
+            child: ListView(
+              children: getListOfWidgets(),
+            ),
           ),
         ),
         floatingActionButton: Row(
@@ -61,7 +53,20 @@ class _ItemBranchesState extends State<ItemBranchesScreen> {
         ));
   }
 
-  List<BranchView> _branches() {
+  List<Widget> getListOfWidgets() {
+    List<Widget> widgets = [];
+    widgets.add(
+      ItemDetailsCard(
+        eshopManager: widget.eshopManager,
+        item: _item,
+        itemModel: _itemModel,
+      ),
+    );
+    widgets.addAll(_branches());
+    return widgets;
+  }
+
+  List<Widget> _branches() {
     return widget.commodity.branches
         .map((e) => BranchView(
               branch: e,
@@ -165,63 +170,30 @@ class _ItemDetailsCardState extends State<StatefulWidget> {
         padding: const EdgeInsets.fromLTRB(5, 5, 5, 0),
         child: Column(
           children: [
-            Row(
-              children: [
-                Expanded(
-                  flex: 3,
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Row(
-                          children: [
-                            EshopHeading('Item id.'),
-                            Padding(
-                              padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
-                              child: Text(item.id.toString()),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-                              child: Text('created: '),
-                            ),
-                            Text(DateFormat('dd-MM-yyyy – kk:mm').format(
-                                DateTime.fromMicrosecondsSinceEpoch(
-                                    item.dateOfCreation))),
-                          ],
-                        ),
-                        Container(
-                          width: 200,
-                          child: TextFormField(
-                            maxLines: null,
-                            initialValue: item.name,
-                            decoration: const InputDecoration(
-                              hintText: 'Enter item name',
-                            ),
-                            validator: CommodityValidation.name,
-                            onChanged: (value) {
-                              item.name = value.trim();
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Expanded(
-                  flex: 2,
-                  child: ItemUploadImage(
-                    images: item.images,
-                    eshopManager: eshopManager,
-                  ),
-                ),
-              ],
+            Padding(
+              padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
+              child: Text(item.id.toString()),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+              child: Text('created: '),
+            ),
+            Text(DateFormat('dd-MM-yyyy – kk:mm').format(
+                DateTime.fromMicrosecondsSinceEpoch(item.dateOfCreation))),
+            TextFormField(
+              maxLines: null,
+              initialValue: item.name,
+              decoration: const InputDecoration(
+                hintText: 'Enter item name',
+              ),
+              validator: CommodityValidation.name,
+              onChanged: (value) {
+                item.name = value.trim();
+              },
+            ),
+            ItemUploadImage(
+              images: item.images,
+              eshopManager: eshopManager,
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
@@ -262,7 +234,9 @@ class BranchView extends StatefulWidget {
   final EshopManager eshopManager;
   final CommodityBranch branch;
   final Commodity item;
-  const BranchView({required this.branch, required this.eshopManager, required this.item});
+
+  const BranchView(
+      {required this.branch, required this.eshopManager, required this.item});
 
   @override
   State<StatefulWidget> createState() => BranchViewState();
@@ -372,6 +346,7 @@ class _BranchDetails extends StatelessWidget {
     required this.price,
     required this.currency,
   });
+
   final int amount;
   final double price;
   final String currency;
