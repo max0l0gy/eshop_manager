@@ -10,17 +10,27 @@ Message _$MessageFromJson(Map<String, dynamic> json) {
   return Message(
     json['status'] as String,
     json['message'] as String,
-    (json['errors'] as List<dynamic>)
-        .map((e) => ErrorDetail.fromJson(e as Map<String, dynamic>))
+    (json['errors'] as List<dynamic>?)
+        ?.map((e) => ErrorDetail.fromJson(e as Map<String, dynamic>))
         .toList(),
   );
 }
 
-Map<String, dynamic> _$MessageToJson(Message instance) => <String, dynamic>{
-      'status': instance.status,
-      'message': instance.message,
-      'errors': instance.errors.map((e) => e.toJson()).toList(),
-    };
+Map<String, dynamic> _$MessageToJson(Message instance) {
+  final val = <String, dynamic>{
+    'status': instance.status,
+    'message': instance.message,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('errors', instance.errors?.map((e) => e.toJson()).toList());
+  return val;
+}
 
 ErrorDetail _$ErrorDetailFromJson(Map<String, dynamic> json) {
   return ErrorDetail(
@@ -106,7 +116,7 @@ Map<String, dynamic> _$CommodityBranchToJson(CommodityBranch instance) =>
 AttributeDto _$AttributeDtoFromJson(Map<String, dynamic> json) {
   return AttributeDto(
     json['name'] as String,
-    json['value'] as String,
+    json['value'] as Object,
     json['measure'] as String?,
   );
 }
