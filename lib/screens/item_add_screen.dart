@@ -41,7 +41,7 @@ class _ItemAddState extends State<ItemAddScreen> {
           children: [
 
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.fromLTRB(3, 0, 3, 2),
               child: ItemDetailsCard(
                 _item,
                 widget.eshopManager,
@@ -144,101 +144,98 @@ class ItemDetailCardState extends State<ItemDetailsCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
-      child: Padding(
-        padding: ITEM_DETAIL_PADDING,
-        child: Column(
-          children: [
-            TextFormField(
-              maxLines: null,
-              initialValue: widget.item.name,
+      child: Column(
+        children: [
+          TextFormField(
+            maxLines: null,
+            initialValue: widget.item.name,
+            decoration: const InputDecoration(
+              hintText: 'Enter item name',
+            ),
+            validator: CommodityValidation.name,
+            onChanged: (value) {
+              widget.item.name = value.trim();
+            },
+          ),
+
+          ItemUploadImage(
+            images: widget.item.images,
+            eshopManager: widget.eshopManager,
+          ),
+
+          Padding(
+            padding: ITEM_DETAIL_PADDING,
+            child: TextFormField(
+              initialValue: widget.item.shortDescription,
               decoration: const InputDecoration(
-                hintText: 'Enter item name',
+                hintText: 'Enter short description',
               ),
-              validator: CommodityValidation.name,
+              validator: CommodityValidation.shortDescription,
               onChanged: (value) {
-                widget.item.name = value.trim();
+                widget.item.shortDescription = value.trim();
               },
             ),
-
-            ItemUploadImage(
-              images: widget.item.images,
-              eshopManager: widget.eshopManager,
-            ),
-
-            Padding(
-              padding: ITEM_DETAIL_PADDING,
-              child: TextFormField(
-                initialValue: widget.item.shortDescription,
-                decoration: const InputDecoration(
-                  hintText: 'Enter short description',
-                ),
-                validator: CommodityValidation.shortDescription,
-                onChanged: (value) {
-                  widget.item.shortDescription = value.trim();
-                },
+          ),
+          Padding(
+            padding: ITEM_DETAIL_PADDING,
+            child: TextFormField(
+              maxLines: null,
+              initialValue: widget.item.overview,
+              decoration: const InputDecoration(
+                hintText: 'Enter overview',
               ),
+              validator: CommodityValidation.overview,
+              onChanged: (value) {
+                widget.item.overview = value.trim();
+              },
             ),
-            Padding(
-              padding: ITEM_DETAIL_PADDING,
-              child: TextFormField(
-                maxLines: null,
-                initialValue: widget.item.overview,
-                decoration: const InputDecoration(
-                  hintText: 'Enter overview',
-                ),
-                validator: CommodityValidation.overview,
-                onChanged: (value) {
-                  widget.item.overview = value.trim();
-                },
-              ),
-            ),
+          ),
 
-            Padding(
-              padding: ITEM_DETAIL_PADDING,
-              child: TextFormField(
-                inputFormatters: [
-                  WhitelistingTextInputFormatter.digitsOnly
-                ],
-                initialValue: widget.item.amount.toString(),
-                decoration: const InputDecoration(
-                  hintText: 'Enter amount of items',
-                ),
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Please enter amount';
-                  }
-                  return null;
-                },
-                onChanged: (value) {
-                  widget.item.amount = int.tryParse(value)!;
-                },
+          Padding(
+            padding: ITEM_DETAIL_PADDING,
+            child: TextFormField(
+              inputFormatters: [
+                WhitelistingTextInputFormatter.digitsOnly
+              ],
+              initialValue: widget.item.amount.toString(),
+              decoration: const InputDecoration(
+                hintText: 'Enter amount of items',
               ),
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return 'Please enter amount';
+                }
+                return null;
+              },
+              onChanged: (value) {
+                widget.item.amount = int.tryParse(value)!;
+              },
             ),
+          ),
 
-            Padding(
-              padding: ITEM_DETAIL_PADDING,
-              child: TextFormField(
-                initialValue: widget.item.price.toString(),
-                decoration: const InputDecoration(
-                  hintText: 'Enter price per item',
-                ),
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Please enter price per item';
-                  }
-                  if (double.tryParse(value) == null) {
-                    return 'Incorrect price';
-                  }
-                  return null;
-                },
-                onChanged: (value) {
-                  widget.item.price = double.tryParse(value)!;
-                },
+          Padding(
+            padding: EdgeInsets.fromLTRB(10, 0, 10, 20),
+            child: TextFormField(
+              initialValue: widget.item.price.toString(),
+              decoration: const InputDecoration(
+                hintText: 'Enter price per item',
               ),
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return 'Please enter price per item';
+                }
+                if (double.tryParse(value) == null) {
+                  return 'Incorrect price';
+                }
+                return null;
+              },
+              onChanged: (value) {
+                widget.item.price = double.tryParse(value)!;
+              },
             ),
+          ),
 
-          ],
-        ),
+        ],
       ),
     );
   }
