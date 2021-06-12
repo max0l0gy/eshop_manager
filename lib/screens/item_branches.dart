@@ -304,6 +304,16 @@ class BranchViewState extends State<BranchView> {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
+            IconButton(
+              onPressed: () {
+                _navigateToEditBranch();
+              },
+              icon: Icon(
+                Icons.edit,
+                color: Colors.yellow,
+              ),
+              tooltip: 'Edit item branch',
+            ),
             Expanded(
               flex: 2,
               child: Padding(
@@ -323,16 +333,6 @@ class BranchViewState extends State<BranchView> {
                   currency: _currency,
                 ),
               ),
-            ),
-            IconButton(
-              onPressed: () {
-                _navigateToEditBranch();
-              },
-              icon: Icon(
-                Icons.edit_attributes,
-                color: Colors.yellow,
-              ),
-              tooltip: 'Edit item branch',
             ),
           ],
         ),
