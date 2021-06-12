@@ -102,7 +102,7 @@ class BranchDetailsCard extends StatelessWidget {
         child: Row(
           children: [
             Expanded(
-              flex: 2,
+              flex: 1,
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                 child: TextFormField(
@@ -125,7 +125,7 @@ class BranchDetailsCard extends StatelessWidget {
               ),
             ),
             Expanded(
-              flex: 2,
+              flex: 1,
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
                 child: TextFormField(
@@ -145,6 +145,31 @@ class BranchDetailsCard extends StatelessWidget {
                   },
                   onChanged: (value) {
                     branch.price = double.tryParse(value)!;
+                  },
+                ),
+              ),
+            ),
+            Expanded(
+              flex: 1,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+                child: TextFormField(
+                  initialValue: branch.currency,
+                  decoration: const InputDecoration(
+                    hintText: 'Enter Currency Code',
+                    labelText: 'Currency',
+                  ),
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Please enter valid currency code';
+                    }
+                    if ("USD" != value) {
+                      return 'Incorrect currency code. Available just USD';
+                    }
+                    return null;
+                  },
+                  onChanged: (value) {
+                    branch.currency = value;
                   },
                 ),
               ),
