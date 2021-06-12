@@ -9,7 +9,6 @@ part of 'commodity.dart';
 Message _$MessageFromJson(Map<String, dynamic> json) {
   return Message(
     json['status'] as String,
-    json['url'] as String,
     json['message'] as String,
     (json['errors'] as List<dynamic>)
         .map((e) => ErrorDetail.fromJson(e as Map<String, dynamic>))
@@ -19,7 +18,6 @@ Message _$MessageFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$MessageToJson(Message instance) => <String, dynamic>{
       'status': instance.status,
-      'url': instance.url,
       'message': instance.message,
       'errors': instance.errors.map((e) => e.toJson()).toList(),
     };

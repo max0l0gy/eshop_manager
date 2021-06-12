@@ -78,11 +78,10 @@ class Message {
   static String SUCCESS = 'success';
   static String ERROR = 'error';
   String status;
-  String url;
   String message;
   List<ErrorDetail> errors;
 
-  Message(this.status, this.url, this.message, this.errors);
+  Message(this.status, this.message, this.errors);
 
   factory Message.fromJson(Map<String, dynamic> json) =>
       _$MessageFromJson(json);
@@ -173,7 +172,7 @@ class CommodityBranch {
 @JsonSerializable()
 class AttributeDto {
   String name;
-  String value;
+  Object value;
   @JsonKey(includeIfNull: false)
   String? measure;
 
@@ -189,7 +188,7 @@ class AttributeDto {
   bool operator ==(o) =>
       o is AttributeDto &&
       o.name == name &&
-      o.value == value &&
+      o.value.toString() == value.toString() &&
       o.measure == measure;
 
   int get hashCode =>
@@ -207,7 +206,7 @@ class RequestCommodity {
   late int typeId;
   late Set<int> propertyValues = {};
   late List<String?> images = [];
-  late int? branchId;
+  int? branchId;
 
   RequestCommodity({
       required this.name,
@@ -233,6 +232,7 @@ class RequestCommodity {
     }
     this.amount = 1;
     this.price = 50;
+    this.branchId = null;
   }
 
   Map<String, dynamic> toJson() => _$RequestCommodityToJson(this);

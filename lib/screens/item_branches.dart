@@ -291,7 +291,7 @@ class BranchViewState extends State<BranchView> {
         .map((attribute) => Row(
               children: [
                 EshopHeading('${attribute.name}: '),
-                Text(attribute.value),
+                Text(attribute.value.toString()),
                 Text(attribute.measure ?? '')
               ],
             ))

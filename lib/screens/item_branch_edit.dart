@@ -29,7 +29,7 @@ class _ItemBranchState extends State<ItemBranchEditScreen> {
       ),
       body: Form(
         key: formGlobalKey,
-        child: Column(
+        child: ListView(
           children: [
             BranchDetailsCard(
               branch: widget.branch,
@@ -201,6 +201,10 @@ class ItemAttributesCardState extends State<ItemAttributesCard> {
   }
 
   List<CheckboxListTile> getAttributesView() {
+    print('Branch attributes is ');
+    branch.attributes.forEach((attribute) {
+      print('${attribute.name}: ${attribute.value} : ${attribute.measure}');
+    });
     List<CheckboxListTile> viewList = [];
     widget.attributes.forEach((attr) {
       viewList.addAll(
