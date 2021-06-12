@@ -83,7 +83,7 @@ class _ItemsScreenState extends State<ItemsScreen> {
   }
 
   void _loadItems() async {
-    CommodityGrid itemGrid = await _commodityModel.getCommodityGrid(1, 20);
+    CommodityGrid itemGrid = await _commodityModel.getCommodityGrid(1, 200);
     _updateUI(itemGrid);
   }
 
