@@ -272,9 +272,7 @@ class BranchView extends StatefulWidget {
   final EshopManager eshopManager;
   final CommodityBranch branch;
   final Commodity item;
-
-  const BranchView(
-      {required this.branch, required this.eshopManager, required this.item});
+  const BranchView({required this.branch, required this.eshopManager, required this.item});
 
   @override
   State<StatefulWidget> createState() => BranchViewState();
@@ -306,16 +304,6 @@ class BranchViewState extends State<BranchView> {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            IconButton(
-              onPressed: () {
-                _navigateToEditBranch();
-              },
-              icon: Icon(
-                Icons.edit,
-                color: Colors.yellow,
-              ),
-              tooltip: 'Edit item branch',
-            ),
             Expanded(
               flex: 2,
               child: Padding(
@@ -335,6 +323,16 @@ class BranchViewState extends State<BranchView> {
                   currency: _currency,
                 ),
               ),
+            ),
+            IconButton(
+              onPressed: () {
+                _navigateToEditBranch();
+              },
+              icon: Icon(
+                Icons.edit_attributes,
+                color: Colors.yellow,
+              ),
+              tooltip: 'Edit item branch',
             ),
           ],
         ),
@@ -384,7 +382,6 @@ class _BranchDetails extends StatelessWidget {
     required this.price,
     required this.currency,
   });
-
   final int amount;
   final double price;
   final String currency;

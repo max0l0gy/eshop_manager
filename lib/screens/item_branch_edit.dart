@@ -55,7 +55,7 @@ class _ItemBranchState extends State<ItemBranchEditScreen> {
                 print(message.status);
                 print(message.toJson());
                 String errors = '';
-                message.errors.forEach((error) {
+                message.errors?.forEach((error) {
                   errors += ' ' + error.message;
                 });
                 Scaffold.of(context).showSnackBar(SnackBar(

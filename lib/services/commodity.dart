@@ -79,7 +79,8 @@ class Message {
   static String ERROR = 'error';
   String status;
   String message;
-  List<ErrorDetail> errors;
+  @JsonKey(includeIfNull: false)
+  List<ErrorDetail>? errors;
 
   Message(this.status, this.message, this.errors);
 
