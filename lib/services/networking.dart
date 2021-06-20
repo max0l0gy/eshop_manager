@@ -18,6 +18,7 @@ class NetworkHelper {
   }
 
   dynamic decodeResponse(http.Response resp) {
+    print("resp.body: ${resp.body}");
     if (resp.statusCode == 200) {
       return jsonDecode(resp.body);
     } else {
