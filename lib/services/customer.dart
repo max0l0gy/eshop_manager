@@ -26,8 +26,8 @@ class CommodityModel {
     return _convertFromJson(customer);
   }
 
-  Customer _convertFromJson(dynamic orders) {
-    Customer convertedCustomer = Customer.fromJson(orders);
+  Customer _convertFromJson(dynamic customer) {
+    Customer convertedCustomer = Customer.fromJson(customer);
     convertedCustomer.fullName = utf8.decode(convertedCustomer.fullName.codeUnits);
     convertedCustomer.address = utf8.decode(convertedCustomer.address.codeUnits);
     return convertedCustomer;
@@ -51,7 +51,7 @@ class Customer {
 
 
   String fullAddress() {
-    return '$postcode , $country, $city, $address';
+    return utf8.decode('$postcode , $country, $city, $address'.codeUnits);
   }
 
   factory Customer.fromJson(Map<String, dynamic> json) =>
