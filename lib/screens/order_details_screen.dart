@@ -1,10 +1,11 @@
+import 'dart:convert';
+
 import 'package:E0ShopManager/services/customer.dart';
 import 'package:E0ShopManager/services/customer_order.dart';
 import 'package:E0ShopManager/utils/constants.dart';
 import 'package:E0ShopManager/utils/eshop_manager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 class OrderDetailScreen extends StatefulWidget {
   final EshopManager eshopManager;
@@ -89,8 +90,8 @@ class _OrderDetailState extends State<OrderDetailScreen> {
     Customer c = await _customerModel.getById(widget.customerOrder.customerId);
     if (c != null)
       setState(() {
-        _customerName = c.fullName;
-        _deliveryAddress = c.fullAddress();
+        _customerName = utf8.decode(c.fullName.codeUnits);
+        _deliveryAddress = utf8.decode(c.fullAddress().codeUnits);
       });
   }
 
@@ -104,7 +105,7 @@ class _OrderDetailState extends State<OrderDetailScreen> {
 class OrderDetailsCard extends StatelessWidget {
   final int orderId;
   final double totalPrice;
-  final DateTime dateOfOreder;
+  final int dateOfOreder;
   final String customerName;
   final String currencyCode;
   final String deliveryAddress;
@@ -174,7 +175,7 @@ class OrderDetailsCard extends StatelessWidget {
                   padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
                   child: Text('date: '),
                 ),
-                Text(DateFormat('dd-MM-yyyy – kk:mm').format(dateOfOreder)),
+                Text(DateTime.fromMillisecondsSinceEpoch(dateOfOreder).toIso8601String()),
               ],
             ),
             Padding(

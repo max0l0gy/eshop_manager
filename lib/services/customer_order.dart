@@ -68,7 +68,7 @@ class OrderGrid {
 class CustomerOrder {
   int id;
   int customerId;
-  DateTime dateOfCreation;
+  int dateOfCreation;
   String status;
   String paymentProvider;
   String paymentID;
@@ -112,7 +112,7 @@ class Purchase {
   String name;
   String shortDescription;
   String overview;
-  DateTime dateOfCreation;
+  int dateOfCreation;
   String type;
   double price;
   String currency;
