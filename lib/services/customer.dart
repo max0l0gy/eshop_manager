@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:E0ShopManager/utils/constants.dart';
 import 'package:E0ShopManager/utils/eshop_manager.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -25,7 +27,10 @@ class CommodityModel {
   }
 
   Customer _convertFromJson(dynamic orders) {
-    return Customer.fromJson(orders);
+    Customer convertedCustomer = Customer.fromJson(orders);
+    convertedCustomer.fullName = utf8.decode(convertedCustomer.fullName.codeUnits);
+    convertedCustomer.address = utf8.decode(convertedCustomer.address.codeUnits);
+    return convertedCustomer;
   }
 }
 
@@ -41,6 +46,9 @@ class Customer {
 
   Customer(this.id, this.email, this.fullName, this.country, this.postcode,
       this.city, this.address);
+
+  factory Customer.empty() => Customer(0, '', '', '', '', '', '');
+
 
   String fullAddress() {
     return '$postcode , $country, $city, $address';

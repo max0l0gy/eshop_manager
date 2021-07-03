@@ -20,8 +20,7 @@ class OrderDetailScreen extends StatefulWidget {
 class _OrderDetailState extends State<OrderDetailScreen> {
   final _formKey = GlobalKey<FormState>();
   late CommodityModel _customerModel;
-  String _customerName = '';
-  String _deliveryAddress = '';
+  Customer _customer = Customer.empty();
 
   @override
   Widget build(BuildContext context) {
@@ -35,13 +34,12 @@ class _OrderDetailState extends State<OrderDetailScreen> {
       body: Column(
         children: [
           OrderDetailsCard(
+            customer: _customer,
             eshopManager: widget.eshopManager,
             orderId: order.id,
             totalPrice: order.totalPrice,
             dateOfOreder: order.dateOfCreation,
             currencyCode: currency,
-            customerName: _customerName,
-            deliveryAddress: _deliveryAddress,
             actions: order.actions,
           ),
           Expanded(
@@ -90,8 +88,7 @@ class _OrderDetailState extends State<OrderDetailScreen> {
     Customer c = await _customerModel.getById(widget.customerOrder.customerId);
     if (c != null)
       setState(() {
-        _customerName = utf8.decode(c.fullName.codeUnits);
-        _deliveryAddress = utf8.decode(c.fullAddress().codeUnits);
+        _customer = c;
       });
   }
 
@@ -103,22 +100,20 @@ class _OrderDetailState extends State<OrderDetailScreen> {
 }
 
 class OrderDetailsCard extends StatelessWidget {
+  final Customer customer;
   final int orderId;
   final double totalPrice;
   final int dateOfOreder;
-  final String customerName;
   final String currencyCode;
-  final String deliveryAddress;
   final List<OrderAction> actions;
   final EshopManager eshopManager;
 
   const OrderDetailsCard({
+    required this.customer,
     required this.orderId,
     required this.totalPrice,
     required this.dateOfOreder,
-    required this.customerName,
     required this.currencyCode,
-    required this.deliveryAddress,
     required this.actions,
     required this.eshopManager,
   });
@@ -201,7 +196,7 @@ class OrderDetailsCard extends StatelessWidget {
                   EshopHeading('Customer:'),
                   Padding(
                     padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
-                    child: Text(customerName),
+                    child: Text('${customer.fullName} | ${customer.email}'),
                   )
                 ],
               ),
@@ -216,7 +211,7 @@ class OrderDetailsCard extends StatelessWidget {
             ),
             Padding(
               padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
-              child: Text(deliveryAddress),
+              child: Text('${customer.fullAddress()}'),
             ),
             _actionButtons(context),
           ],
