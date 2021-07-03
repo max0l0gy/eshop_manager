@@ -1,11 +1,10 @@
-import 'dart:convert';
-
 import 'package:E0ShopManager/services/customer.dart';
 import 'package:E0ShopManager/services/customer_order.dart';
 import 'package:E0ShopManager/utils/constants.dart';
 import 'package:E0ShopManager/utils/eshop_manager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class OrderDetailScreen extends StatefulWidget {
   final EshopManager eshopManager;
@@ -170,7 +169,8 @@ class OrderDetailsCard extends StatelessWidget {
                   padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
                   child: Text('date: '),
                 ),
-                Text(DateTime.fromMillisecondsSinceEpoch(dateOfOreder).toIso8601String()),
+                Text(DateTime.fromMillisecondsSinceEpoch(dateOfOreder)
+                    .toIso8601String()),
               ],
             ),
             Padding(
@@ -196,7 +196,23 @@ class OrderDetailsCard extends StatelessWidget {
                   EshopHeading('Customer:'),
                   Padding(
                     padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
-                    child: Text('${customer.fullName} | ${customer.email}'),
+                    child: ClipboardedTextfield(
+                      text: customer.fullName,
+                    ),
+                  )
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+              child: Row(
+                children: [
+                  EshopHeading('email:'),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
+                    child: ClipboardedTextfield(
+                      text: customer.email,
+                    ),
                   )
                 ],
               ),
@@ -211,11 +227,41 @@ class OrderDetailsCard extends StatelessWidget {
             ),
             Padding(
               padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
-              child: Text('${customer.fullAddress()}'),
+              child: ClipboardedTextfield(
+                text: customer.fullAddress(),
+              ),
             ),
             _actionButtons(context),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class ClipboardedTextfield extends StatelessWidget {
+  final String text;
+
+  const ClipboardedTextfield({Key? key, required this.text}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    // The GestureDetector wraps the button.
+    return GestureDetector(
+      // When the child is tapped, show a snackbar.
+      onTap: () {
+        Clipboard.setData(ClipboardData(text: text));
+        final snackBar = SnackBar(content: Text('Copied to clipboard'));
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      },
+      // The custom button
+      child: Container(
+        padding: EdgeInsets.all(2.0),
+        decoration: BoxDecoration(
+          color: Theme.of(context).buttonColor,
+          borderRadius: BorderRadius.circular(8.0),
+        ),
+        child: Text(text),
       ),
     );
   }

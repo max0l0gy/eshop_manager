@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:E0ShopManager/utils/constants.dart';
 import 'package:E0ShopManager/utils/eshop_manager.dart';
+import 'package:flutter/rendering.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import 'networking.dart';
@@ -30,6 +31,8 @@ class CommodityModel {
     Customer convertedCustomer = Customer.fromJson(customer);
     convertedCustomer.fullName = utf8.decode(convertedCustomer.fullName.codeUnits);
     convertedCustomer.address = utf8.decode(convertedCustomer.address.codeUnits);
+    convertedCustomer.city = utf8.decode(convertedCustomer.city.codeUnits);
+    convertedCustomer.country = utf8.decode(convertedCustomer.country.codeUnits);
     return convertedCustomer;
   }
 }
@@ -51,7 +54,7 @@ class Customer {
 
 
   String fullAddress() {
-    return utf8.decode('$postcode , $country, $city, $address'.codeUnits);
+    return '$postcode , $country, $city, $address';
   }
 
   factory Customer.fromJson(Map<String, dynamic> json) =>
