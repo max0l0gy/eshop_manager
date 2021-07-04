@@ -197,7 +197,7 @@ class ItemAttributesCardState extends State<ItemAttributesCard> {
   ItemAttributesCardState(this.branch);
 
   bool attributePresent(AttributeDto attr) {
-    return branch.attributes.contains(attr);
+    return branch.attributes.any((attribute) => attribute.name==attr.name && attribute.value.toString()==attr.value.toString());
   }
 
   List<CheckboxListTile> getAttributesView() {
